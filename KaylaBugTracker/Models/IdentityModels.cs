@@ -76,8 +76,6 @@ namespace KaylaBugTracker.Models
 
         public System.Data.Entity.DbSet<KaylaBugTracker.Models.TicketAttachment> TicketAttachments { get; set; }
 
-        public System.Data.Entity.DbSet<KaylaBugTracker.Models.ApplicationUser> ApplicationUsers { get; set; }
-
         public System.Data.Entity.DbSet<KaylaBugTracker.Models.TicketComment> TicketComments { get; set; }
 
         public System.Data.Entity.DbSet<KaylaBugTracker.Models.TicketHistory> TicketHistories { get; set; }

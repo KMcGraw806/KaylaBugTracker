@@ -180,6 +180,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\ImageUploadValidator.cs" />
+    <Compile Include="Helper\ProjectHelper.cs" />
     <Compile Include="Helper\StringUtilities.cs" />
     <Compile Include="Helper\UserHelper.cs" />
     <Compile Include="Helper\UserRoleHelper.cs" />
@@ -293,6 +294,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

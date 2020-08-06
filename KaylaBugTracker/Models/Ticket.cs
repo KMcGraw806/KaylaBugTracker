@@ -11,15 +11,11 @@ namespace KaylaBugTracker.Models
 
         #region Parents/Children
         public int ProjectId { get; set; }
-
         public int TicketPriorityId { get; set; }
-
         public int TicketStatusId { get; set; }
-
         public int TicketTypeId { get; set; }
 
         public string SubmitterId { get; set; }
-
         public string DeveloperId { get; set; }
 
         public virtual Project Project { get; set; }
@@ -28,11 +24,8 @@ namespace KaylaBugTracker.Models
         public virtual TicketPriority TicketPriority { get; set; }
 
         public ICollection<TicketAttachment> Attachments { get; set; }
-
         public ICollection<TicketComment> Comments { get; set; }
-
         public ICollection<TicketHistory> Histories { get; set; }
-
         public ICollection<TicketNotification> Notifications { get; set; }
         #endregion
 

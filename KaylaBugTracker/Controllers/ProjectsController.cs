@@ -6,18 +6,31 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using KaylaBugTracker.Helper;
 using KaylaBugTracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace KaylaBugTracker.Controllers
 {
     public class ProjectsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserHelper userHelper = new UserHelper();
 
         // GET: Projects
         public ActionResult Index()
         {
-            return View(db.Projects.ToList());
+            var model = new List<Project>();
+            if (User.IsInRole("Admin"))
+            {
+                model = db.Projects.ToList();
+            }
+            if (User.IsInRole("Project Manager") || User.IsInRole("Developer") || User.IsInRole("Submitter"))
+            {
+                var userId = User.Identity.GetUserId();
+                model = (List<Project>)userHelper.ListUserProjects(userId);
+            }
+            return View(model);
         }
 
         // GET: Projects/Details/5
@@ -36,6 +49,7 @@ namespace KaylaBugTracker.Controllers
         }
 
         // GET: Projects/Create
+        [Authorize(Roles = "Admin, ProjectManager")]
         public ActionResult Create()
         {
             return View();
@@ -50,6 +64,7 @@ namespace KaylaBugTracker.Controllers
         {
             if (ModelState.IsValid)
             {
+                project.Created = DateTime.Now;
                 db.Projects.Add(project);
                 db.SaveChanges();
                 return RedirectToAction("Index");
