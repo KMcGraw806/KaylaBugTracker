@@ -7,7 +7,7 @@ namespace KaylaBugTracker.Models
 {
     public class Ticket
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
         #region Parents/Children
         public int ProjectId { get; set; }
@@ -17,6 +17,9 @@ namespace KaylaBugTracker.Models
 
         public string SubmitterId { get; set; }
         public string DeveloperId { get; set; }
+        
+        public virtual ApplicationUser Submitter { get; set; }
+        public virtual ApplicationUser Developer { get; set; }
 
         public virtual Project Project { get; set; }
         public virtual TicketType TicketType { get; set; }

@@ -1,0 +1,66 @@
+﻿@using KaylaBugTracker.Models
+@using KaylaBugTracker.Helpers
+@model IEnumerable<ApplicationUser>
+@{
+	ViewBag.Title = "ManageRoles";
+	var roleHelper = new UserRolesHelper();
+}
+
+<style>
+	#UserIds {
+		min-height: 200px;
+	}
+</style>
+<h2>ManageRoles</h2>
+
+<div class="row">
+	<div class="col-3 text-center h2">
+		Managing Role for @Model.FullName
+	</div>
+</div>
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="row">
+		<div class="col-md-8">
+			@Html.ListBox("UserIds")
+		</div>
+		<div class="col-md-4">
+			@Html.DropDownList("RoleName", "--No Role--")
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col">
+			<button type="submit" class="btn btn-primary" style="width:100%">Manage Role Assignment(s)</button>
+		</div>
+	</div>
+}
+
+<hr />
+
+<table class="table">
+	<tr>
+		<th>
+			@Html.DisplayName("User Email")
+		</th>
+		<th>
+			@Html.DisplayName("Role")
+		</th>
+	</tr>
+
+	@foreach (var person in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => person.Email)
+			</td>
+			<td>
+				@roleHelper.ListUserRoles(person.Id).FirstOrDefault()
+			</td>
+		</tr>
+	}
+
+</table>

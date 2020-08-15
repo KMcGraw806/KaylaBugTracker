@@ -1,0 +1,63 @@
+﻿@using System.Collections.Generic;
+@using KaylaBugTracker.Models
+@using KaylaBugTracker.Helpers
+@model IEnumerable<ApplicationUser>
+@{
+	ViewBag.Title = "ManageProjectUsers";
+	var projectHelper = new ProjectHelper();
+}
+
+<style>
+	#UserIds {
+		min-height: 200px;
+	}
+</style>
+<h2>Manage Project Users</h2>
+
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="row">
+		<div class="col-8">
+			<h2>Select Users</h2>
+			@Html.ListBox("UserIds")
+		</div>
+		<div class="col-4">
+			<h2>Select Projects</h2>
+			@Html.Drop("ProjectIds")
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col">
+			<button type="submit" class="btn btn-primary" style="width:100%">Assign Users</button>
+		</div>
+	</div>
+}
+<hr />
+<table class="table">
+	<tr>
+		<th>
+			@Html.DisplayName("Participants")
+		</th>
+		<th>
+			@Html.DisplayName("Project Name")
+		</th>
+	</tr>
+	@foreach (var user in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => user.Email)
+			</td>
+			<td>
+				@foreach (var project in projectHelper.ListUserProjects(user.Id))
+				{
+					@project.Name
+				}
+			</td>
+		</tr>
+	}
+</table>

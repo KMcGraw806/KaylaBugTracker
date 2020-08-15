@@ -10,9 +10,9 @@ namespace KaylaBugTracker.Models
         public int Id { get; set; }
 
         #region Parent/Children
-        public ICollection<Ticket> Tickets { get; set; }
+        public virtual ICollection<Ticket> Tickets { get; set; }
 
-        public ICollection<ApplicationUser> Users { get; set; }
+        public virtual ICollection<ApplicationUser> Users { get; set; }
         #endregion
 
         #region Actual Properties

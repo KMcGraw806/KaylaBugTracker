@@ -6,7 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using KaylaBugTracker.Models;
+using KaylaBugTracker.Helpers;
 
 namespace KaylaBugTracker.Controllers
 {
@@ -49,10 +51,31 @@ namespace KaylaBugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TicketId,UserId,FilePath,Description,Created")] TicketAttachment ticketAttachment)
+        public ActionResult Create([Bind(Include = "TicketId,FileName")] TicketAttachment ticketAttachment, string attachmentDescription, HttpPostedFileBase file)
         {
+            //Check that there is an incoming file
+            if(file == null)
+            {
+                TempData["Error"] = "You must supply a file";
+                return RedirectToAction("Dashboard", "Tickets", new { id = ticketAttachment.TicketId });
+            }
+
             if (ModelState.IsValid)
             {
+                ticketAttachment.Description = attachmentDescription;
+                ticketAttachment.Created = DateTime.Now;
+                ticketAttachment.UserId = User.Identity.GetUserId();
+
+                
+                if(file != null)
+                {
+                    //Step 1: Run the file through a validator; Is it of proper size and extension
+                    
+
+                    //Step 2: Isolate, slug and stamp file name
+
+                    //Step 3: Assign the FilePath property and save the physical file
+                }
                 db.TicketAttachments.Add(ticketAttachment);
                 db.SaveChanges();
                 return RedirectToAction("Index");

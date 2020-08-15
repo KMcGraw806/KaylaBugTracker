@@ -6,12 +6,12 @@
 
 <h2>Index</h2>
 
-@if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
-{
+@*@if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+{*@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-}
+@*}*@
 <table class="table">
     <tr>
         <th>

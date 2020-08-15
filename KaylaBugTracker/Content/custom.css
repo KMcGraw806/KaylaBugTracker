@@ -1,0 +1,14 @@
+﻿.keepSignedIn {
+	content: "";
+	width: 18px;
+	height: 18px;
+	border-radius: 2px;
+	border: solid #7057d2;
+	border-width: 2px;
+	margin-top: 2px;
+	-webkit-transition: all;
+	transition: all;
+	transition-duration: 0s;
+	-webkit-transition-duration: 250ms;
+	transition-duration: 250ms;
+}
