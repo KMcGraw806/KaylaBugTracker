@@ -55,7 +55,7 @@ namespace KaylaBugTracker.Controllers
         }
 
         // GET: Projects/Create
-        //[Authorize(Roles = "Admin, ProjectManager")]
+        [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult Create()
         {
             return View();
@@ -71,8 +71,10 @@ namespace KaylaBugTracker.Controllers
             if (ModelState.IsValid)
             {
                 project.Created = DateTime.Now;
+                project.IsArchived = false;
                 db.Projects.Add(project);
                 db.SaveChanges();
+                projectHelper.AddUserToProject(User.Identity.GetUserId(), project.Id);
                 return RedirectToAction("Index");
             }
 
@@ -97,7 +99,7 @@ namespace KaylaBugTracker.Controllers
             ViewBag.Errors = "";
             if (model.ProjectManagerId == null)
             {
-                ViewBag.Errors += "<p>You must select a Project Manager";
+                ViewBag.Errors += "<p>You must select a Project Manager</p>";
             }
             if(model.DeveloperIds.Count == 0)
             {
@@ -120,8 +122,10 @@ namespace KaylaBugTracker.Controllers
                 Project project = new Project();
                 project.Name = model.Name;
                 project.Created = DateTime.Now;
+                project.IsArchived = false;
                 db.Projects.Add(project);
                 db.SaveChanges();
+                projectHelper.AddUserToProject(User.Identity.GetUserId(), project.Id);
 
                 projectHelper.AddUserToProject(model.ProjectManagerId, project.Id);
                 foreach(var userId in model.DeveloperIds)

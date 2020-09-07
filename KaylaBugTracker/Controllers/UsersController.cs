@@ -1,5 +1,6 @@
 ﻿using KaylaBugTracker.Helpers;
 using KaylaBugTracker.Models;
+using KaylaBugTracker.ViewModels;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -9,6 +10,8 @@ namespace KaylaBugTracker.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRolesHelper roleHelper = new UserRolesHelper();
+        private ProjectHelper projectHelper = new ProjectHelper();
+        
 
         // GET: Users
         public ActionResult Index()
@@ -37,6 +40,32 @@ namespace KaylaBugTracker.Controllers
             }
 
             return RedirectToAction("ManageUserRoles", id);
+        }
+
+        public ActionResult Manage(string userId)
+        {
+            var manageUserVM = new ManageUserVM();
+            var user = db.Users.Find(userId);
+
+            manageUserVM.FirstName = user.FirstName;
+            manageUserVM.LastName = user.LastName;
+            manageUserVM.Email = user.Email;
+            manageUserVM.AvatarPath = user.AvatarPath;
+            manageUserVM.AssignedProjects = projectHelper.ListUserProjects(userId);
+            manageUserVM.ProjectList = new MultiSelectList(db.Projects, "Id", "Name", manageUserVM.AssignedProjects.Select(p => p.Id));
+            manageUserVM.Role = roleHelper.ListUserRoles(userId).FirstOrDefault();
+
+            ViewBag.RoleList = new SelectList(db.Roles, "Name", "Name", manageUserVM.Role);
+
+            return View(manageUserVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        //[Authorize(Roles = "Submitter")]
+        public ActionResult Manage([Bind (Include = "Id,ProjectId,TicketPriorityId,TicketTypeId,Title,Description")] Ticket ticket)
+        {
+            return RedirectToAction("Index", "Home");
         }
     }
 }

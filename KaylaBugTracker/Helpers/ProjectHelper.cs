@@ -64,7 +64,7 @@ namespace KaylaBugTracker.Helpers
         public ICollection<Project> ListUserProjects(string userId)
         {
             ApplicationUser user = db.Users.Find(userId);
-            var projects = user.Projects.ToList();
+            var projects = user.Projects;
             return (projects);
         }
         //OPTIONAL: List users on a project that occupy a specific role

@@ -10,6 +10,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using KaylaBugTracker.Models;
 using System.Net.Mail;
+using System.IO;
+using System.Drawing;
+using System.Web.Configuration;
 
 namespace KaylaBugTracker.Controllers
 {
@@ -90,6 +93,33 @@ namespace KaylaBugTracker.Controllers
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
+        } 
+
+        [AllowAnonymous]
+        public ActionResult DemoLogin()
+        {
+            return View();
+        }
+        
+        // POST: /Account/Login
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DemoLogin(string emailKey, string passwordKey, string returnUrl)
+        {
+            var email = WebConfigurationManager.AppSettings[emailKey];
+            var password = WebConfigurationManager.AppSettings[passwordKey];
+
+            var result = await SignInManager.PasswordSignInAsync(email, password, false, shouldLockout: false);
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    return RedirectToLocal(returnUrl);
+                case SignInStatus.Failure:
+                default:
+                    ModelState.AddModelError("", "Invalid login attempt.");
+                    return View();
+            }
         }
 
         //
@@ -158,15 +188,16 @@ namespace KaylaBugTracker.Controllers
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     UserName = model.Email, 
-                    Email = model.Email 
+                    Email = model.Email,
                     AvatarPath = "/Images/default_avatar.png"
                 };
 
                 //If and only if the user chooses a custom avatar will I overwrite the default
                 if(model.Avatar != null)
                 {
-                    //Do stuff here to store the selected image to the users  record
-
+                    var fileName = Path.GetFileName(model.Avatar.FileName);
+                    model.Avatar.SaveAs(Path.Combine(Server.MapPath("~/Avatars/"), fileName));
+                    user.AvatarPath = "/Avatars/" + fileName;
                 }
 
                 var result = await UserManager.CreateAsync(user, model.Password);
@@ -503,7 +534,7 @@ namespace KaylaBugTracker.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //

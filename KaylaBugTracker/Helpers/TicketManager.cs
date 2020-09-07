@@ -41,5 +41,40 @@ namespace KaylaBugTracker.Helpers
             }
             return tickets;
         }
+
+        public void ManageTicketNotifications(Ticket oldTicket, Ticket newTicket)
+        {
+            //Scenario 1: A new assignment - oldTicket.DeveloperId = null newTicket.DeveloperId is not
+            if(oldTicket.DeveloperId != newTicket.DeveloperId && newTicket.DeveloperId != null)
+            {
+                var newNotification = new TicketNotification()
+                {
+                    TicketId = newTicket.Id,
+                    UserId = newTicket.DeveloperId,
+                    Created = DateTime.Now,
+                    Subject = $"You have been assigned Ticket Id: {newTicket.Id}",
+                    Body = $"Heads up {newTicket.Developer.FullName}, you have been assigned to Ticket Id {newTicket.Id} titled '' on Project ''"
+                };
+
+                db.TicketNotifications.Add(newNotification);
+                db.SaveChanges();
+                
+            }
+
+            //Scenario 2: An unassignment
+            if(oldTicket.DeveloperId != newTicket.DeveloperId && newTicket.DeveloperId == null)
+            {
+                var newNotification = new TicketNotification()
+                {
+                    TicketId = newTicket.Id,
+                    UserId = newTicket.DeveloperId,
+                    Created = DateTime.Now,
+                    Subject = $"You have been from {newTicket.Id}",
+                    Body = $"Heads up {newTicket.Developer.FullName}, you have been removed from Ticket Id {newTicket.Id} titled '' on Project ''"
+                };
+            }
+
+            //Scenario 3: A reassignment => could create two notifications, one for the new guy and one for the old girl
+        }
     }
 }

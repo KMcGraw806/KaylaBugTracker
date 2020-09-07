@@ -11,6 +11,11 @@ namespace KaylaBugTracker.Models
         public string Email { get; set; }
     }
 
+    public class CustomeExternalRegister : ExternalLoginConfirmationViewModel
+    {
+
+    }
+
     public class ExternalLoginListViewModel
     {
         public string ReturnUrl { get; set; }

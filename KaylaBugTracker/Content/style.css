@@ -1933,11 +1933,11 @@ sup {
   top: -.5em; }
 
 a {
-  color: #007bff;
+  color: #000000;
   text-decoration: none;
   background-color: transparent; }
   a:hover {
-    color: #0056b3;
+    color: #000000;
     text-decoration: underline; }
 
 a:not([href]):not([tabindex]) {
@@ -1987,7 +1987,11 @@ th {
 
 label {
   display: inline-block;
-  margin-bottom: 0.5rem; }
+  margin-bottom: 0.5rem; 
+  margin-top: 20px !important;
+  margin-left: 20px !important;
+  margin-right: 20px !important;
+}
 
 button {
   border-radius: 0; }
@@ -2297,8 +2301,8 @@ pre {
 .col-xl-auto {
   position: relative;
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px; }
+  padding-right: 5px;
+  padding-left: 5px; }
 
 .col {
   -ms-flex-preferred-size: 0;
@@ -12961,7 +12965,7 @@ code {
 .card {
   border: 1px solid #edf2fa;
   -webkit-box-shadow: 0 1px 20px 0 rgba(236, 242, 251, 0.68);
-  box-shadow: 0 1px 20px 0 rgba(236, 242, 251, 0.68); }
+  box-shadow: 0 1px 20px 0 rgba(106, 113, 123, 0.68); }
   .card .card-body {
     padding: 24px 24px; }
     .card .card-body + .card-body {
@@ -15973,7 +15977,11 @@ body.avgrund-active {
   padding-left: 0;
   padding-right: 0; }
   .dataTables_wrapper label {
-    font-size: .8125rem; }
+    font-size: .8125rem; 
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
+  }
   .dataTables_wrapper select {
     padding: .4rem; }
   .dataTables_wrapper .dataTables_length select {
@@ -17882,7 +17890,9 @@ dl {
       color: #ffffff; }
 
 .auth .auth-form-light {
-  background: #ffffff; }
+  background: #ffffff;
+  border-radius: 100px;
+}
   .auth .auth-form-light select {
     color: #c9c8c8; }
   .auth .auth-form-light .input-group .form-control:focus, .auth .auth-form-light .asColorPicker-wrap .form-control:focus, .auth .auth-form-light .input-group .asColorPicker-input:focus, .auth .auth-form-light .asColorPicker-wrap .asColorPicker-input:focus, .auth .auth-form-light .input-group .dataTables_wrapper select:focus, .dataTables_wrapper .auth .auth-form-light .input-group select:focus, .auth .auth-form-light .asColorPicker-wrap .dataTables_wrapper select:focus, .dataTables_wrapper .auth .auth-form-light .asColorPicker-wrap select:focus, .auth .auth-form-light .input-group .jsgrid .jsgrid-table .jsgrid-filter-row input:focus[type="text"], .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-light .input-group input:focus[type="text"], .auth .auth-form-light .asColorPicker-wrap .jsgrid .jsgrid-table .jsgrid-filter-row input:focus[type="text"], .jsgrid .jsgrid-table .jsgrid-filter-row .auth .auth-form-light .asColorPicker-wrap input:focus[type="text"],
@@ -18677,10 +18687,12 @@ dl {
           width: 35px;
           height: 35px; }
           .sidebar .nav .nav-item.nav-profile .nav-link .nav-profile-image img {
-            width: 35px;
-            height: 35px;
+            width: 100px;
+            height: 100px;
             border-radius: 100%;
-            border: none; }
+            border: none; 
+            margin-left: 50%;
+          }
         .sidebar .nav .nav-item.nav-profile .nav-link .nav-profile-text {
           margin-left: 1rem; }
           .rtl .sidebar .nav .nav-item.nav-profile .nav-link .nav-profile-text {
@@ -19036,7 +19048,7 @@ dl {
     .sidebar-icon-only .sidebar .sidebar-actions {
       display: none; }
   .sidebar-icon-only .page-body-wrapper {
-    width: calc(100% - 70px);
+    width: calc(5% - 70px);
     transition: all 0.25s ease;
     -webkit-transition: all 0.25s ease;
     -moz-transition: all 0.25s ease;
@@ -19188,7 +19200,7 @@ body.dark-theme {
   flex-direction: row;
   padding-left: 0;
   padding-right: 0;
-  width: calc(100% - 245px);
+  width: calc(5% - 245px);
   transition: width 0.25s ease, margin 0.25s ease;
   -webkit-transition: width 0.25s ease, margin 0.25s ease;
   -moz-transition: width 0.25s ease, margin 0.25s ease;
@@ -19224,12 +19236,13 @@ body.dark-theme {
       width: 100%; } }
 
 .content-wrapper {
-  background: #fafbfd;
-  padding: 2rem 2.25rem;
-  width: 100%;
-  -webkit-box-flex: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1; }
+    background: #d5d8de;
+    padding: 2rem 2.25rem;
+    width: 100%;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+}
 
 .dark-theme .content-wrapper {
   background: #1c1c1f; }

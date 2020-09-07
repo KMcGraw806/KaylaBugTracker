@@ -5,30 +5,99 @@
 }
 
 <style>
+	.pageContent {
+		margin-top: 100px;
+	}
 </style>
-<h2>ManageUserRoles</h2>
 
-<div class="row">
-	<div class="col-3 text-center h2">
-		Managing Role for @Model.FullName
+<div class="main-panel">
+	<div class="content-wrapper">
+		<div class="page-header text-center">
+			<h2>ManageUserRoles</h2>
+		</div>
+
+		<div class="card">
+			<div class="card-body">
+				<div class="mt-4">
+					<div class="accordion" id="accordion" role="tablist">
+						<div class="card">
+							<div class="card-header" role="tab" id="heading-1">
+								<h6 class="mb-0">
+									<a data-toggle="collapse" href="#collapse-1" aria-expanded="false" aria-controls="collapse-1" class="collapsed"> How can I pay for an order I placed? </a>
+								</h6>
+							</div>
+							<div id="collapse-1" class="collapse" role="tabpanel" aria-labelledby="heading-1" data-parent="#accordion" style="">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-3">
+											<img src="https://via.placeholder.com/300x300" class="mw-100">
+										</div>
+										<div class="col-9"> You can pay for the product you have purchased using credit cards, debit cards, or via online banking. We also provide cash-on-delivery services. </div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header" role="tab" id="heading-2">
+								<h6 class="mb-0">
+									<a class="collapsed" data-toggle="collapse" href="#collapse-2" aria-expanded="false" aria-controls="collapse-2"> I can’t sign in to my account </a>
+								</h6>
+							</div>
+							<div id="collapse-2" class="collapse" role="tabpanel" aria-labelledby="heading-2" data-parent="#accordion" style="">
+								<div class="card-body">
+									If while signing in to your account you see an error message, you can do the following <ol class="pl-3 mt-4">
+										<li> Check your network connection and try again </li>
+										<li> Make sure your account credentials are correct while signing in </li>
+										<li> Check whether your account is accessible in your region </li>
+									</ol>
+									<br>
+									<p class="text-success">
+										<i class="mdi mdi-alert-octagon mr-2"></i>If the problem persists, you can contact our support.
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header" role="tab" id="heading-3">
+								<h6 class="mb-0">
+									<a class="" data-toggle="collapse" href="#collapse-3" aria-expanded="true" aria-controls="collapse-3"> Can I add money to the wallet? </a>
+								</h6>
+							</div>
+							<div id="collapse-3" class="collapse show" role="tabpanel" aria-labelledby="heading-3" data-parent="#accordion" style="">
+								<div class="card-body"> You can add money to the wallet for any future transaction from your bank account using net-banking, or credit/debit card transaction. The money in the wallet can be used for an easier and faster transaction. </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card">
+			<div class="card-body">
+				Managing Role for @Model.FullName
+			</div>
+		</div>
+
+		<div class="card">
+			<div class="card-body">
+				@using (Html.BeginForm())
+				{
+
+					@Html.AntiForgeryToken()
+
+					<div class="row">
+						<div class="col-3">
+							@Html.DropDownList("RoleName", "--No Role--")
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col">
+							<button type="submit" class="btn btn-inverse-success" style="width:100%">Manage Role Assignment(s)</button>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
 	</div>
 </div>
-
-
-@using (Html.BeginForm())
-{
-
-	@Html.AntiForgeryToken()
-
-	<div class="row">
-		<div class="col-3">
-			@Html.DropDownList("RoleName", "--No Role--")
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col">
-			<button type="submit" class="btn btn-primary" style="width:100%">Manage Role Assignment(s)</button>
-		</div>
-	</div>
-}

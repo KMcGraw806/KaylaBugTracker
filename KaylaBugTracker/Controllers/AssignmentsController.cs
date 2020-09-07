@@ -16,12 +16,12 @@ namespace KaylaBugTracker.Controllers
 
         #region Role Assignments
         // GET: Assignments
-        [Authorize]
+        //[Authorize]
         public ActionResult ManageRoles()
         {
-            ViewBag.UserIds = new MultiSelectList(db.Users, "Id", "Email");
+            ViewBag.UserIds = new MultiSelectList(db.Users, "Id", "FullName");
 
-            ViewBag.RoleName = new SelectList(db.Roles, "Name", "Name");
+            ViewBag.RoleName = new SelectList(db.Roles.Where(r => r.Name != "Admin"), "Name", "Name");
             return View(db.Users.ToList());
         }
 
@@ -32,9 +32,9 @@ namespace KaylaBugTracker.Controllers
             if (userIds == null)
                 return RedirectToAction("RolesIndex");
 
-            foreach(var userId in userIds)
+            foreach (var userId in userIds)
             {
-                foreach(var role in roleHelper.ListUserRoles(userId).ToList())
+                foreach (var role in roleHelper.ListUserRoles(userId).ToList())
                 {
                     roleHelper.RemoveUserFromRole(userId, role);
                 }
@@ -43,9 +43,14 @@ namespace KaylaBugTracker.Controllers
                 {
                     roleHelper.AddUserToRole(userId, roleName);
                 }
-                
+
             }
             return RedirectToAction("ManageRoles");
+        }
+
+        public ActionResult ManageUserRoles()
+        {
+            return View();
         }
         #endregion
 
@@ -60,22 +65,38 @@ namespace KaylaBugTracker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ManageProjectUsers(List<string> userIds, ICollection<int> projectIds)
+        public ActionResult ManageProjectUsers(List<string> userIds, ICollection<int> projectIds, bool bob)
         {
-            if(userIds == null || projectIds == null)
+            if (bob)
             {
-                return RedirectToAction("ManageProjectUsers");
-            }
+                if (userIds == null || projectIds == null)
+                {
+                    return RedirectToAction("ManageProjectUsers");
+                }
 
-            foreach(var userId in userIds)
-            {
-                foreach(var projectId in projectIds)
+                foreach (var userId in userIds)
+                {
+                    foreach (var projectId in projectIds)
                     {
                         projectHelper.AddUserToProject(userId, projectId);
                     }
+                }
             }
-            
+            else
+            {
+                if (userIds == null || projectIds == null)
+                {
+                    return RedirectToAction("ManageProjectUsers");
+                }
 
+                foreach (var userId in userIds)
+                {
+                    foreach (var projectId in projectIds)
+                    {
+                        projectHelper.RemoveUserFromProject(userId, projectId);
+                    }
+                }
+            }
             return RedirectToAction("ManageProjectUsers");
         }
         #endregion

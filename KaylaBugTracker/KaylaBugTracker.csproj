@@ -171,27 +171,28 @@
     <Compile Include="Controllers\AssignmentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MorrisChartsController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\TicketAttachmentsController.cs" />
     <Compile Include="Controllers\TicketCommentsController.cs" />
-    <Compile Include="Controllers\TicketHistoriesController.cs" />
-    <Compile Include="Controllers\TicketNotificationsController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\FileStamp.cs" />
+    <Compile Include="Helpers\HistoryHelper.cs" />
+    <Compile Include="Helpers\IconHelper.cs" />
     <Compile Include="Helpers\ImageUploadValidator.cs" />
+    <Compile Include="Helpers\NotificationHelper.cs" />
     <Compile Include="Helpers\ProjectHelper.cs" />
     <Compile Include="Helpers\StringUtilities.cs" />
+    <Compile Include="Helpers\TicketEditVM.cs" />
+    <Compile Include="Helpers\TicketHelper.cs" />
     <Compile Include="Helpers\TicketManager.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="Helpers\UserRolesHelper.cs" />
     <Compile Include="Helpers\UserTicketHelper.cs" />
-    <Compile Include="Migrations\202008032305319_bugtracker.cs" />
-    <Compile Include="Migrations\202008032305319_bugtracker.Designer.cs">
-      <DependentUpon>202008032305319_bugtracker.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\EmailModel.cs" />
@@ -208,22 +209,58 @@
     <Compile Include="Models\TicketType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\ManageUserVM.cs" />
+    <Compile Include="ViewModels\MorrisChartData.cs" />
     <Compile Include="ViewModels\MyTicketVM.cs" />
+    <Compile Include="ViewModels\ProjectViewModel.cs" />
     <Compile Include="ViewModels\ProjectWizardVM.cs" />
     <Compile Include="ViewModels\UserIndexViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Avatars\Abed.png" />
+    <Content Include="Avatars\Annie.png" />
+    <Content Include="Avatars\Britta.png" />
+    <Content Include="Avatars\Chang.png" />
+    <Content Include="Avatars\Dean.png" />
+    <Content Include="Avatars\default_avatar.png" />
+    <Content Include="Avatars\Jeff.png" />
+    <Content Include="Avatars\Pierce.png" />
+    <Content Include="Avatars\Shirley.png" />
+    <Content Include="Avatars\Troy.png" />
     <Content Include="Content\bootstrap-datepicker.min.css" />
     <Content Include="Content\custom.css" />
+    <Content Include="Content\datatables.min.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\materialdesignicons.min.css" />
     <Content Include="Content\style.css" />
+    <Content Include="Content\summernote.css" />
     <Content Include="Content\vendor.bundle.base.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Images\default_avatar.png" />
+    <Content Include="Images\android-chrome-192x192.png" />
+    <Content Include="Images\android-chrome-512x512.png" />
+    <Content Include="Images\apple-touch-icon.png" />
+    <Content Include="Images\bmp.png" />
+    <Content Include="Images\default.png" />
+    <Content Include="Images\doc.png" />
+    <Content Include="Images\docx.png" />
+    <Content Include="Images\favicon-16x16.png" />
+    <Content Include="Images\favicon-32x32.png" />
+    <Content Include="Images\favicon.ico" />
     <Content Include="Images\favicon.png" />
+    <Content Include="Images\gif.png" />
+    <Content Include="Images\jpeg.png" />
+    <Content Include="Images\jpg.png" />
+    <Content Include="Images\logo-small.png" />
+    <Content Include="Images\Logo.png" />
+    <Content Include="Images\pdf.png" />
+    <Content Include="Images\png.png" />
+    <Content Include="Images\tiff.png" />
+    <Content Include="Images\txt.png" />
+    <Content Include="Images\xls.png" />
+    <Content Include="Images\xlsx.png" />
     <Content Include="Private.config" />
     <Content Include="Scripts\ace.js" />
     <Content Include="Scripts\alerts.js" />
@@ -242,7 +279,7 @@
     <Content Include="Scripts\context-menu.js" />
     <Content Include="Scripts\cropper.js" />
     <Content Include="Scripts\dashboard.js" />
-    <Content Include="Scripts\data-table.js" />
+    <Content Include="Scripts\datatables.min.js" />
     <Content Include="Scripts\db.js" />
     <Content Include="Scripts\desktop-notification.js" />
     <Content Include="Scripts\dragula.js" />
@@ -262,14 +299,17 @@
     <Content Include="Scripts\inputmask.js" />
     <Content Include="Scripts\ion-range-slider.js" />
     <Content Include="Scripts\jq.tablesort.js" />
+    <Content Include="Scripts\jquery-3.5.1.min.js" />
     <Content Include="Scripts\jquery-file-upload.js" />
     <Content Include="Scripts\jquery-jvectormap-world-mill-en.js" />
     <Content Include="Scripts\jquery-jvectormap.min.js" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.flot.categories.js" />
     <Content Include="Scripts\jquery.flot.fillbetween.js" />
     <Content Include="Scripts\jquery.flot.js" />
     <Content Include="Scripts\jquery.flot.resize.js" />
     <Content Include="Scripts\jquery.flot.stack.js" />
+    <Content Include="Scripts\jquery.steps.min.js" />
     <Content Include="Scripts\js-grid.js" />
     <Content Include="Scripts\just-gage.js" />
     <Content Include="Scripts\light-gallery.js" />
@@ -292,6 +332,7 @@
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\settings.js" />
     <Content Include="Scripts\sparkline.js" />
+    <Content Include="Scripts\summernote.js" />
     <Content Include="Scripts\tablesorter.js" />
     <Content Include="Scripts\tabs.js" />
     <Content Include="Scripts\tight-grid.js" />
@@ -338,6 +379,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Tickets\Create.cshtml" />
     <Content Include="Views\Tickets\Delete.cshtml" />
+    <Content Include="Views\Account\DemoLogin.cshtml" />
+    <None Include="Properties\PublishProfiles\KaylaBugTracker - Web Deploy.pubxml" />
     <None Include="Views\Tickets\Dashboard.cshtml" />
     <Content Include="Views\Tickets\Edit.cshtml" />
     <Content Include="Views\Tickets\Index.cshtml" />
@@ -376,7 +419,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Avatars\" />
+    <Folder Include="Views\MorrisCharts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\materialdesignicons-webfont.eot" />
@@ -389,11 +432,6 @@
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202008032305319_bugtracker.resx">
-      <DependentUpon>202008032305319_bugtracker.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
