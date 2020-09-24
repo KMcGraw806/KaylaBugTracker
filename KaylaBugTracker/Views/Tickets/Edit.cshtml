@@ -1,81 +1,147 @@
 ﻿@model KaylaBugTracker.Models.Ticket
 
 @{
-    ViewBag.Title = "Edit";
+	ViewBag.Title = "Edit";
 }
 
 <div class="main-panel">
-    <div class="content-wrapper">
-        <div class="page-header text-center">
-			<h2>Edit</h2>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
-    
-				<div class="form-horizontal">
-					<div class="text-center">
-						<h2>Ticket</h2>
-					</div>
-					<hr />
-					@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-					@Html.HiddenFor(model => model.Id)
-					@Html.HiddenFor(model => model.ProjectId)
-					@Html.HiddenFor(model => model.Created)
-
+	<div class="content-wrapper">
+		<div class="card">
+			<div class="card-header text-center">
+				<h2>Edit Ticket</h2>
+			</div>
+			<div class="card-body">
 				<div class="row">
-					<div class="col-6">
-						<div class="row">
-							<div class="col-12">
-								<div class="form-group">
-									<div class="row align-items-center">
-										<label class="control-label col-md-3 text-center" for="TicketPriorityId">Ticket Priority</label>
-										<div class="col-md-6">
-											@Html.DropDownList("TicketPriorityId", null, htmlAttributes: new { @class = "form-control" })
-											@Html.ValidationMessageFor(model => model.TicketPriorityId, "", new { @class = "text-danger" })
-										</div>
-									</div>
-								</div>
+					<div class="col-12">
+						<div class="card border-0">
+							<div class="card-header bg-success text-center">
+								<h2 class="projectDetails">Editing Ticket</h2>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col-12">
-								<div class="form-group">
-									<div class="row align-items-center">
-										<label class="control-label col-md-3 text-center" for="TicketStatusId">Ticket Status</label>
-										<div class="col-md-6">
-											@Html.DropDownList("TicketStatusId", null, htmlAttributes: new { @class = "form-control" })
-											@Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-12">
-								<div class="form-group">
-									<div class="row align-items-center">
-										<label class="control-label col-md-3 text-center" for="TicketTypeId">Ticket Type</label>
-										<div class="col-md-6">
-											@Html.DropDownList("TicketTypeId", null, htmlAttributes: new { @class = "form-control" })
-											@Html.ValidationMessageFor(model => model.TicketTypeId, "", new { @class = "text-danger" })
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-12">
-								@if (User.IsInRole("Project Manager"))
+							<div class="card-body">
+								@using (Html.BeginForm())
 								{
-									<div class="form-group">
-										<div class="row align-items-center">
-											<label class="control-label col-md-12" for="DeveloperId">Developer</label>
-											<div class="col-md-10">
-												@Html.EditorFor(model => model.DeveloperId, new { htmlAttributes = new { @class = "form-control" } })
-												@Html.ValidationMessageFor(model => model.DeveloperId, "", new { @class = "text-danger" })
+									@Html.AntiForgeryToken()
+
+									<div class="form-horizontal">
+										<div class="text-center">
+											<h2>Ticket</h2>
+										</div>
+										<hr />
+										@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+										@Html.HiddenFor(model => model.Id)
+										@Html.HiddenFor(model => model.ProjectId)
+										@Html.HiddenFor(model => model.Created)
+
+										<div class="row">
+											<div class="col-6">
+												<div class="row">
+													<div class="col-12">
+														<div class="form-group">
+															<div class="row align-items-center">
+																<label class="control-label col-md-3 text-center" for="TicketPriorityId">Ticket Priority</label>
+																<div class="col-md-6">
+																	@Html.DropDownList("TicketPriorityId", null, htmlAttributes: new { @class = "form-control" })
+																	@Html.ValidationMessageFor(model => model.TicketPriorityId, "", new { @class = "text-danger" })
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-12">
+														<div class="form-group">
+															<div class="row align-items-center">
+																<label class="control-label col-md-3 text-center" for="TicketStatusId">Ticket Status</label>
+																<div class="col-md-6">
+																	@Html.DropDownList("TicketStatusId", null, htmlAttributes: new { @class = "form-control" })
+																	@Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-12">
+														<div class="form-group">
+															<div class="row align-items-center">
+																<label class="control-label col-md-3 text-center" for="TicketTypeId">Ticket Type</label>
+																<div class="col-md-6">
+																	@Html.DropDownList("TicketTypeId", null, htmlAttributes: new { @class = "form-control" })
+																	@Html.ValidationMessageFor(model => model.TicketTypeId, "", new { @class = "text-danger" })
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-12">
+														@if (User.IsInRole("Project Manager"))
+														{
+															<div class="form-group">
+																<div class="row align-items-center">
+																	<label class="control-label col-md-3 text-center" for="DeveloperId">Developer</label>
+																	<div class="col-md-6">
+																		@Html.DropDownList("DeveloperId", null, htmlAttributes: new { @class = "form-control" })
+																		@Html.ValidationMessageFor(model => model.DeveloperId, "", new { @class = "text-danger" })
+																	</div>
+																</div>
+															</div>
+														}
+													</div>
+												</div>
+											</div>
+											<div class="col-6">
+												<div class="row">
+													<div class="col-12">
+														<div class="form-group">
+															@Html.LabelFor(model => model.Issue, htmlAttributes: new { @class = "control-label col-md-12" })
+															<div class="col-md-10">
+																@Html.EditorFor(model => model.Issue, new { htmlAttributes = new { @class = "form-control issueBox" } })
+																@Html.ValidationMessageFor(model => model.Issue, "", new { @class = "text-danger" })
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-12">
+														<div class="form-group">
+															<label class="control-label col-md-12" for="IssueDescription">Issue Description</label>
+															<div class="col-md-10">
+																@Html.EditorFor(model => model.IssueDescription, new { htmlAttributes = new { @class = "form-control descriptionBox" } })
+																@Html.ValidationMessageFor(model => model.IssueDescription, "", new { @class = "text-danger" })
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-6">
+														<div class="form-group">
+															<label class="control-label col-md-12" for="IsResolved">Resolved</label>
+															<div class="col-md-10">
+																<div class="checkbox">
+																	@Html.EditorFor(model => model.IsResolved)
+																	@Html.ValidationMessageFor(model => model.IsResolved, "", new { @class = "text-danger" })
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-6">
+														<div class="form-group">
+															<label class="control-label col-md-12" for="IsArchived">Archived</label>
+															<div class="col-md-10">
+																<div class="checkbox">
+																	@Html.EditorFor(model => model.IsArchived)
+																	@Html.ValidationMessageFor(model => model.IsArchived, "", new { @class = "text-danger" })
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="form-group float-right">
+											<div class="col-md-offset-2 col-md-10">
+												<input type="submit" value="Save" class="btn btn-inverse-success" />
 											</div>
 										</div>
 									</div>
@@ -83,74 +149,14 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-6">
-						<div class="row">
-							<div class="col-12">
-								<div class="form-group">
-									@Html.LabelFor(model => model.Issue, htmlAttributes: new { @class = "control-label col-md-12" })
-									<div class="col-md-10">
-										@Html.EditorFor(model => model.Issue, new { htmlAttributes = new { @class = "form-control issueBox" } })
-										@Html.ValidationMessageFor(model => model.Issue, "", new { @class = "text-danger" })
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-12">
-								<div class="form-group">
-									<label class="control-label col-md-12" for="IssueDescription">IssueDescription</label>
-									<div class="col-md-10">
-										@Html.EditorFor(model => model.IssueDescription, new { htmlAttributes = new { @class = "form-control descriptionBox" } })
-										@Html.ValidationMessageFor(model => model.IssueDescription, "", new { @class = "text-danger" })
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-6">
-								<div class="form-group">
-									<label class="control-label col-md-12" for="IsResolved">Resolved</label>
-									<div class="col-md-10">
-										<div class="checkbox">
-											@Html.EditorFor(model => model.IsResolved)
-											@Html.ValidationMessageFor(model => model.IsResolved, "", new { @class = "text-danger" })
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-6">
-								<div class="form-group">
-									<label class="control-label col-md-12" for="IsArchived">Archived</label>
-									<div class="col-md-10">
-										<div class="checkbox">
-											@Html.EditorFor(model => model.IsArchived)
-											@Html.ValidationMessageFor(model => model.IsArchived, "", new { @class = "text-danger" })
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 				</div>
-
-					
-
-					<div class="form-group float-right">
-						<div class="col-md-offset-2 col-md-10">
-							<input type="submit" value="Save" class="btn btn-inverse-success" />
-						</div>
-					</div>
-				</div>
-                }
-
-                <div>
-                    @Html.ActionLink("Back to List", "Index")
-                </div>
-            </div>
-        </div>
-    </div>
+			</div>
+			<div>
+				@Html.ActionLink("Back to List", "Index")
+			</div>
+		</div>
+	</div>
 </div>
-
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+	@Scripts.Render("~/bundles/jqueryval")
 }

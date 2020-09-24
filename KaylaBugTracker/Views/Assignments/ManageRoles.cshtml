@@ -29,11 +29,11 @@
 </style>
 
 <div class="main-panel">
-	<div class="content-wrapper @*pb-0*@">
-		<div class="page-header text-center">
-			<h2>Manage Roles</h2>
-		</div>
+	<div class="content-wrapper pb-0">
 		<div class="card">
+			<div class="card-header text-center">
+				<h2>Manage Roles</h2>
+			</div>
 			<div class="card-body">
 				@using (Html.BeginForm())
 				{
@@ -59,46 +59,45 @@
 						</div>
 					</div>
 				}
+				<hr />
+				<div class="card">
+					<div class="card-body">
+						<div class="table-responsive">
+							<table id="myTable" class="table table-hover table-striped table-borderless">
+								<thead>
+									<tr>
+										<th>
+											Name
+										</th>
+										<th>
+											Email
+										</th>
+										<th>
+											Role
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var person in Model)
+									{
+										<tr>
+											<td>
+												@Html.DisplayFor(modelItem => person.FullName)
+											</td>
+											<td>
+												@Html.DisplayFor(modelItem => person.Email)
+											</td>
+											<td>
+												@roleHelper.ListUserRoles(person.Id).FirstOrDefault()
+											</td>
+										</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		@*<div class="table-sorter-wrapper">
-		<div class="col-md-12 grid-margin stretch-card">*@
-		<div class="card">
-			<div class="card-body">
-				<table id="myTable" class="table table-bordered">
-					<thead>
-						<tr>
-							<th>
-								Name
-							</th>
-							<th>
-								Email
-							</th>
-							<th>
-								Role
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						@foreach (var person in Model)
-						{
-							<tr>
-								<td>
-									@Html.DisplayFor(modelItem => person.FullName)
-								</td>
-								<td>
-									@Html.DisplayFor(modelItem => person.Email)
-								</td>
-								<td>
-									@roleHelper.ListUserRoles(person.Id).FirstOrDefault()
-								</td>
-							</tr>
-						}
-					</tbody>
-				</table>
-			</div>
-		</div>
-		@*</div>
-		</div>*@
 	</div>
 </div>

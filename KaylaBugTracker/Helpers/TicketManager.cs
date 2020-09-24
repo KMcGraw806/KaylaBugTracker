@@ -11,7 +11,6 @@ namespace KaylaBugTracker.Helpers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRolesHelper roleHelper = new UserRolesHelper();
-        private ProjectHelper projectHelper = new ProjectHelper();
 
         public List<Ticket> GetMyTickets()
         {

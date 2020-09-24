@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "ManageProjectUsers";
 	var projHelper = new ProjectHelper();
+	var roleHelper = new UserRolesHelper();
 }
 
 	<style>
@@ -13,86 +14,87 @@
 
 <div class="main-panel">
     <div class="content-wrapper">
-		<div class="page-header text-center">
-			<h2>Manage Project Users</h2>
-		</div>
-			<div class="card">
-				<div class="card-header">
-					<div class="card-title text-center">
-						<h2>Assign Users</h2>
+		<div class="card">
+			<div class="card-header">
+				<div class="card-title text-center">
+					<h2>Manage Users On Projects</h2>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="card">
+					<div class="card-body">
+						@using (Html.BeginForm())
+						{
+							@Html.AntiForgeryToken()
+							<div class="row selectBoxes">
+								<div class="col-6 text-center">
+									<h2>Select Users</h2>
+									@Html.ListBox("UserIds")
+								</div>
+								<div class="col-6 text-center">
+									<h2>Select Project</h2>
+									@Html.ListBox("ProjectIds")
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-6">
+									<button type="submit" value="true" name="Bob" class="btn btn-success btnWide">Assign User</button>
+								</div>
+								<div class="col-6">
+									<button type="submit" value="false" name="Bob" class="btn btn-inverse-success btnWide">Unassign User</button>
+								</div>
+							</div>
+						}
 					</div>
 				</div>
+				<hr />
+				<div class="card">
 					<div class="card-body">
-					@using (Html.BeginForm())
-					{
-						@Html.AntiForgeryToken()
-						<div class="row selectBoxes">
-							<div class="col-6 text-center">
-								<h2>Select Users</h2>
-								@Html.ListBox("UserIds")
-							</div>
-							<div class="col-6 text-center">
-								<h2>Select Project</h2>
-								@Html.ListBox("ProjectIds")
-							</div>
+						<div class="table-responsive">
+							<table id="myTable" class="table table-hover table-striped table-borderless">
+								<thead>
+									<tr>
+										<th>
+											@Html.DisplayName("Name")
+										</th>
+										<th>
+											@Html.DisplayNameFor(model => model.Email)
+										</th>
+										<th>
+											User Role
+										</th>
+										<th>
+											@Html.DisplayName("Project(s)")
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var user in Model)
+									{
+										<tr>
+											<td>
+												@Html.DisplayFor(modelItem => user.FullName)
+											</td>
+											<td>
+												@Html.DisplayFor(modelItem => user.Email)
+											</td>
+											<td>
+												@roleHelper.ListUserRoles(user.Id).FirstOrDefault()
+											</td>
+											<td>
+												@foreach (var project in projHelper.ListUserProjects(user.Id))
+												{
+													@project.Name <br />
+												}
+											</td>
+										</tr>
+									}
+								</tbody>
+							</table>
 						</div>
-						<div class="row">
-							<div class="col-6">
-								<button type="submit" value="true" name="Bob" class="btn btn-success btnWide">Assign User</button>
-							</div>
-							<div class="col-6">
-								<button type="submit" value="false" name="Bob" class="btn btn-inverse-success btnWide">Unassign User</button>
-							</div>
-						</div>
-					}
+					</div>
 				</div>
 			</div>
-
-        
-        <div class="card">
-			<div class="card-body">
-				<table id="myTable" class="table table-bordered">
-					<thead>
-						<tr>
-							<th>
-								@Html.DisplayName("Name")
-							</th>
-							<th>
-								@Html.DisplayNameFor(model => model.Email)
-							</th>
-							<th>
-								@Html.DisplayName("Project(s)")
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						@foreach (var user in Model)
-						{
-						<tr>
-							<td>
-								@Html.DisplayFor(modelItem => user.FullName)
-							</td>
-							<td>
-								@Html.DisplayFor(modelItem => user.Email)
-							</td>
-							<td>
-								@foreach (var project in projHelper.ListUserProjects(user.Id))
-								{
-									@project.Name <br />
-								}
-							</td>
-						</tr>
-						}
-					</tbody>
-				</table>
-
-			</div>
-        </div>
+		</div>
     </div>
 </div>
-
-@*@section scripts{
-	<script>
-		$('#myTable').DataTable();
-	</script>
-}*@

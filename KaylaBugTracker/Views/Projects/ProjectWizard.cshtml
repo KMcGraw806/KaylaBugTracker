@@ -1,138 +1,98 @@
 ﻿@model KaylaBugTracker.ViewModels.ProjectWizardVM
 @{
 	ViewBag.Title = "ProjectWizard";
-	<a href="~/Views/Shared/_Layout.cshtml">~/Views/Shared/_Layout.cshtml</a>
+	@*<a href="~/Views/Shared/_Layout.cshtml">~/Views/Shared/_Layout.cshtml</a>*@
 }
 
 <div class="main-panel">
 	<div class="content-wrapper">
-
-		@if (ViewBag.Errors.Length > 0)
-		{
-			<span class="text-danger">
-				@Html.Raw(ViewBag.Errors)
-			</span>
-
-		}
-		else
-		{
-			<h1>Yes, that DID work</h1>
-		}
-		<h2>ProjectWizard</h2>
-
-		@using (Html.BeginForm())
-		{
-			@Html.AntiForgeryToken()
-
-			<div class="form-horizontal">
-				<h4>Project</h4>
-				<hr />
-				@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-				<div class="form-group">
-					@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-					<div class="col-md-10">
-						@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-						@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-					</div>
-				</div>
-
-				<div class="form-group">
-					@Html.LabelFor(model => model.ProjectManagerId, "ProjectManagerIds", htmlAttributes: new { @class = "control-label col-md-2" })
-					<div class="col-md-10">
-						@Html.DropDownList("ProjectManagerId", null, htmlAttributes: new { @class = "form-control" })
-					</div>
-				</div>
-
-				<div class="form-group">
-					@Html.LabelFor(model => model.DeveloperIds, "DeveloperIds", htmlAttributes: new { @class = "control-label col-md-2" })
-					<div class="col-md-10">
-						<div class="checkbox">
-							@Html.ListBox("DeveloperIds", null, htmlAttributes: new { @class = "form-control" })
-						</div>
-					</div>
-				</div>
-
-				<div class="form-group">
-					@Html.LabelFor(model => model.SubmitterIds, "SubmitterIds", htmlAttributes: new { @class = "control-label col-md-2" })
-					<div class="col-md-10">
-						<div class="checkbox">
-							@Html.ListBox("SubmitterIds", null, htmlAttributes: new { @class = "form-control" })
-						</div>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<div class="col-md-offset-2 col-md-10">
-						<input type="submit" value="Create" class="btn btn-default" />
-					</div>
-				</div>
-			</div>
-		}
-<div class="row">
-	<div class="col-12 grid-margin">
 		<div class="card">
+			<div class="card-header text-center">
+				<h2>Create New Project</h2>
+			</div>
 			<div class="card-body">
-				<h4 class="card-title">Project Wizard</h4>
-				<form id="example-form" action="#">
-					<div role="application" class="wizard clearfix" id="steps-uid-0">
-						<div class="steps clearfix"><ul role="tablist"><li role="tab" class="first current" aria-disabled="false" aria-selected="true"><a id="steps-uid-0-t-0" href="#steps-uid-0-h-0" aria-controls="steps-uid-0-p-0"><span class="current-info audible">current step: </span><span class="number">1.</span> Project Name</a></li><li role="tab" class="disabled" aria-disabled="true"><a id="steps-uid-0-t-1" href="#steps-uid-0-h-1" aria-controls="steps-uid-0-p-1"><span class="number">2.</span> Assign Project Manager</a></li><li role="tab" class="disabled" aria-disabled="true"><a id="steps-uid-0-t-2" href="#steps-uid-0-h-2" aria-controls="steps-uid-0-p-2"><span class="number">3.</span> Assign Developer</a></li><li role="tab" class="disabled last" aria-disabled="true"><a id="steps-uid-0-t-3" href="#steps-uid-0-h-3" aria-controls="steps-uid-0-p-3"><span class="number">4.</span> Assign Submitter & Finish</a></li></ul></div><div class="content clearfix">
-							<h3 id="steps-uid-0-h-0" tabindex="-1" class="title current">Project Name</h3>
-							<section id="steps-uid-0-p-0" role="tabpanel" aria-labelledby="steps-uid-0-h-0" class="body current" aria-hidden="false">
-								<h3>Project Name</h3>
-								<div class="form-group">
-									@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-									<div class="col-md-10">
-										@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-										@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-									</div>
-								</div>
-							</section>
-							<h3 id="steps-uid-0-h-1" tabindex="-1" class="title">Assign Project Manager</h3>
-							<section id="steps-uid-0-p-1" role="tabpanel" aria-labelledby="steps-uid-0-h-1" class="body" aria-hidden="true" style="display: none;">
-								<h3>Assign Project Manager</h3>
-								<div class="form-group">
-									@Html.LabelFor(model => model.ProjectManagerId, "ProjectManagerIds", htmlAttributes: new { @class = "control-label col-md-2" })
-									<div class="col-md-10">
-										@Html.DropDownList("ProjectManagerId", null, htmlAttributes: new { @class = "form-control" })
-									</div>
-								</div>
-							</section>
-							<h3 id="steps-uid-0-h-2" tabindex="-1" class="title">Assign Developer</h3>
-							<section id="steps-uid-0-p-2" role="tabpanel" aria-labelledby="steps-uid-0-h-2" class="body" aria-hidden="true" style="display: none;">
-								<h3>Assign Developer</h3>
-								<div class="form-group">
-									@Html.LabelFor(model => model.DeveloperIds, "DeveloperIds", htmlAttributes: new { @class = "control-label col-md-2" })
-									<div class="col-md-10">
-										<div class="checkbox">
-											@Html.ListBox("DeveloperIds", null, htmlAttributes: new { @class = "form-control" })
-										</div>
-									</div>
-								</div>
-							</section>
-							<h3 id="steps-uid-0-h-3" tabindex="-1" class="title">Assign Submitter & Finish</h3>
-							<section id="steps-uid-0-p-3" role="tabpanel" aria-labelledby="steps-uid-0-h-3" class="body" aria-hidden="true" style="display: none;">
-								<h3>Assign Submitter & Finish</h3>
-								<div class="form-group">
-									@Html.LabelFor(model => model.SubmitterIds, "SubmitterIds", htmlAttributes: new { @class = "control-label col-md-2" })
-									<div class="col-md-10">
-										<div class="checkbox">
-											@Html.ListBox("SubmitterIds", null, htmlAttributes: new { @class = "form-control" })
-										</div>
-									</div>
-								</div>
+				<div class="row">
+					<div class="col-10 offset-1">
 
-								<div class="form-group">
-									<div class="col-md-offset-2 col-md-10">
-										<input type="submit" value="Create" class="btn btn-default" />
+
+						<div class="card">
+							<div class="card-body">
+								@*@if (ViewBag.Errors.Length > 0)
+						{
+							<span class="text-danger">
+								@Html.Raw(ViewBag.Errors)
+							</span>
+						}
+						else
+						{
+							<h1>Yes, that DID work</h1>
+						}
+						<h2>ProjectWizard</h2>*@
+								@using (Html.BeginForm("ProjectWizard", "Projects", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+								{
+									@Html.AntiForgeryToken()
+
+									<div class="form-horizontal" id="example-form">
+										<h4>Project</h4>
+										<hr />
+										@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+										<div>
+											<h3>Project Name</h3>
+											<section>
+												<div class="form-group">
+													@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+													<div class="col-md-10">
+														@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+														@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+													</div>
+												</div>
+											</section>
+											<h3>Project Manager</h3>
+											<section>
+												<div class="form-group">
+													@Html.LabelFor(model => model.ProjectManagerId, "ProjectManagerIds", htmlAttributes: new { @class = "control-label col-md-2" })
+													<div class="col-md-10">
+														@Html.DropDownList("ProjectManagerId", null, htmlAttributes: new { @class = "form-control" })
+													</div>
+												</div>
+											</section>
+											<h3>Developer(s)</h3>
+											<section>
+												<div class="form-group">
+													@Html.LabelFor(model => model.DeveloperIds, "DeveloperIds", htmlAttributes: new { @class = "control-label col-md-2" })
+													<div class="col-md-10">
+														<div class="checkbox">
+															@Html.ListBox("DeveloperIds", null, htmlAttributes: new { @class = "form-control" })
+														</div>
+													</div>
+												</div>
+											</section>
+											<h3>Submitter(s)</h3>
+											<section>
+												<div class="form-group">
+													@Html.LabelFor(model => model.SubmitterIds, "SubmitterIds", htmlAttributes: new { @class = "control-label col-md-2" })
+													<div class="col-md-10">
+														<div class="checkbox">
+															@Html.ListBox("SubmitterIds", null, htmlAttributes: new { @class = "form-control" })
+														</div>
+													</div>
+												</div>
+												<div class="form-group float-right">
+													<div class="col-md-offset-2 col-md-10">
+														<input type="submit" value="Create" class="btn btn-success" />
+													</div>
+												</div>
+											</section>
+										</div>
 									</div>
-								</div>
-							</section>
-						</div><div class="actions clearfix"><ul role="menu" aria-label="Pagination"><li class="disabled" aria-disabled="true"><a href="#previous" role="menuitem">Previous</a></li><li aria-hidden="false" aria-disabled="false"><a href="#next" role="menuitem">Next</a></li><li aria-hidden="true" style="display: none;"><a href="#finish" role="menuitem">Finish</a></li></ul></div>
+								}
+
+							</div>
+						</div>
 					</div>
-				</form>
+				</div>
+				@*<form id="example-form" action="#">*@
 			</div>
 		</div>
-	</div>
-</div>
 	</div>
 </div>

@@ -22,7 +22,7 @@ namespace KaylaBugTracker.Helpers
             db.SaveChanges();
         }
 
-        private void DeveloperUpdate(Ticket oldTicket, Ticket newTicket)
+        public void DeveloperUpdate(Ticket oldTicket, Ticket newTicket)
         {
             if(oldTicket.DeveloperId != newTicket.DeveloperId)
             {
@@ -38,7 +38,25 @@ namespace KaylaBugTracker.Helpers
                 db.TicketHistories.Add(history);
             }
         }
-        private void PriorityUpdate(Ticket oldTicket, Ticket newTicket)
+        public void TitleUpdate(Ticket oldTicket, Ticket newTicket)
+        {
+            if (oldTicket.Issue != newTicket.Issue)
+            {
+                var history = new TicketHistory()
+                {
+                    TicketId = newTicket.Id,
+                    UserId = HttpContext.Current.User.Identity.GetUserId(),
+                    Property = "Title",
+                    OldValue = string.IsNullOrEmpty(oldTicket.Issue) ? "No Issue Title" : oldTicket.Issue,
+                    NewValue = string.IsNullOrEmpty(newTicket.Issue) ? "No Issue Title" : newTicket.Issue,
+                    ChangedOn = DateTime.Now
+                };
+                db.TicketHistories.Add(history);
+                db.SaveChanges();
+            }
+        }
+
+        public void PriorityUpdate(Ticket oldTicket, Ticket newTicket)
         {
             if (oldTicket.TicketPriorityId != newTicket.TicketPriorityId)
             {
@@ -54,7 +72,7 @@ namespace KaylaBugTracker.Helpers
                 db.TicketHistories.Add(history);
             }
         }
-        private void StatusUpdate(Ticket oldTicket, Ticket newTicket)
+        public void StatusUpdate(Ticket oldTicket, Ticket newTicket)
         {
             if (oldTicket.TicketStatusId != newTicket.TicketStatusId)
             {
@@ -70,7 +88,7 @@ namespace KaylaBugTracker.Helpers
                 db.TicketHistories.Add(history);
             }
         }
-        private void TypeUpdate(Ticket oldTicket, Ticket newTicket)
+        public void TypeUpdate(Ticket oldTicket, Ticket newTicket)
         {
             if (oldTicket.TicketTypeId != newTicket.TicketTypeId)
             {
@@ -86,7 +104,7 @@ namespace KaylaBugTracker.Helpers
                 db.TicketHistories.Add(history);
             }
         }
-        private void IssueUpdate(Ticket oldTicket, Ticket newTicket)
+        public void IssueUpdate(Ticket oldTicket, Ticket newTicket)
         {
             if (oldTicket.Issue != newTicket.Issue)
             {
@@ -102,7 +120,7 @@ namespace KaylaBugTracker.Helpers
                 db.TicketHistories.Add(history);
             }
         }
-        private void DescriptionUpdate(Ticket oldTicket, Ticket newTicket)
+        public void DescriptionUpdate(Ticket oldTicket, Ticket newTicket)
         {
             if (oldTicket.IssueDescription != newTicket.IssueDescription)
             {

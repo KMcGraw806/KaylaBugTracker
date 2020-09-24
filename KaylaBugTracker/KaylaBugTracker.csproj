@@ -181,11 +181,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\FileStamp.cs" />
+    <Compile Include="Helpers\FileUploadValidator.cs" />
     <Compile Include="Helpers\HistoryHelper.cs" />
     <Compile Include="Helpers\IconHelper.cs" />
     <Compile Include="Helpers\ImageUploadValidator.cs" />
     <Compile Include="Helpers\NotificationHelper.cs" />
     <Compile Include="Helpers\ProjectHelper.cs" />
+    <Compile Include="Helpers\SeedHelper.cs" />
     <Compile Include="Helpers\StringUtilities.cs" />
     <Compile Include="Helpers\TicketEditVM.cs" />
     <Compile Include="Helpers\TicketHelper.cs" />
@@ -230,9 +232,13 @@
     <Content Include="Avatars\Troy.png" />
     <Content Include="Content\bootstrap-datepicker.min.css" />
     <Content Include="Content\custom.css" />
+    <Content Include="Content\dataTables.bootstrap4.css" />
     <Content Include="Content\datatables.min.css" />
+    <Content Include="Content\dropify.min.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\jquery.dataTables.min.css" />
     <Content Include="Content\materialdesignicons.min.css" />
+    <Content Include="Content\morris.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\summernote.css" />
     <Content Include="Content\vendor.bundle.base.css" />
@@ -279,11 +285,14 @@
     <Content Include="Scripts\context-menu.js" />
     <Content Include="Scripts\cropper.js" />
     <Content Include="Scripts\dashboard.js" />
+    <Content Include="Scripts\data-table.js" />
+    <Content Include="Scripts\dataTables.bootstrap4.js" />
     <Content Include="Scripts\datatables.min.js" />
     <Content Include="Scripts\db.js" />
     <Content Include="Scripts\desktop-notification.js" />
     <Content Include="Scripts\dragula.js" />
     <Content Include="Scripts\dropify.js" />
+    <Content Include="Scripts\dropify.min.js" />
     <Content Include="Scripts\dropzone.js" />
     <Content Include="Scripts\editorDemo.js" />
     <Content Include="Scripts\file-upload.js" />
@@ -381,6 +390,7 @@
     <Content Include="Views\Tickets\Delete.cshtml" />
     <Content Include="Views\Account\DemoLogin.cshtml" />
     <None Include="Properties\PublishProfiles\KaylaBugTracker - Web Deploy.pubxml" />
+    <Content Include="Views\Projects\_ProjectModal.cshtml" />
     <None Include="Views\Tickets\Dashboard.cshtml" />
     <Content Include="Views\Tickets\Edit.cshtml" />
     <Content Include="Views\Tickets\Index.cshtml" />
@@ -416,6 +426,7 @@
     <Content Include="Views\Account\ConfirmationSent.cshtml" />
     <Content Include="Views\Assignments\ManageProjectUsers.cshtml" />
     <Content Include="Views\Projects\ProjectWizard.cshtml" />
+    <Content Include="Views\Tickets\_CreateTicketModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

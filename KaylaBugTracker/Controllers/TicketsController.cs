@@ -82,7 +82,7 @@ namespace KaylaBugTracker.Controllers
         }
 
         // GET: Tickets/Create
-        //[Authorize(Roles = "Submitter")]
+        [Authorize(Roles = "Submitter")]
         public ActionResult Create()
         {
             var userId = User.Identity.GetUserId();
@@ -90,8 +90,8 @@ namespace KaylaBugTracker.Controllers
             {
                 return RedirectToAction("Index");
             }
-            var projectList = projectHelper.ListUserProjects(userId);
-            ViewBag.ProjectId = new SelectList(projectList, "Id", "Name");
+
+            ViewBag.ProjectId = new SelectList(projectHelper.ListUserProjects(userId), "Id", "Name");
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name");
             return View();
@@ -102,8 +102,8 @@ namespace KaylaBugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Submitter")]
-        public ActionResult Create([Bind(Include = "Id,ProjectId,TicketPriorityId,TicketTypeId,Issue,IssueDescription,Created,Updated")] Ticket ticket, bool onPage)
+        [Authorize(Roles = "Submitter")]
+        public ActionResult Create([Bind(Include = "Id,ProjectId,TicketPriorityId,TicketTypeId,Issue,IssueDescription")] Ticket ticket)
         {
             var userId = User.Identity.GetUserId();
             if (ModelState.IsValid)
@@ -137,7 +137,8 @@ namespace KaylaBugTracker.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
+            ViewBag.DeveloperId = new SelectList(roleHelper.ListUsersOnProjectInRole(ticket.ProjectId, "Developer"), "Id", "Email", ticket.DeveloperId);
+            ViewBag.Projectid = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
@@ -165,12 +166,83 @@ namespace KaylaBugTracker.Controllers
                 await notificationHelper.ManageNotifications(oldTicket, newTicket);
                 return RedirectToAction("Index");
             }
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
+            ViewBag.DeveloperId = new SelectList(roleHelper.ListUsersOnProjectInRole(ticket.ProjectId, "Developer"), "Id", "Email", ticket.DeveloperId);
+            ViewBag.Projectid = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
             return View(ticket);
         }
+
+        public PartialViewResult _CreateTicketModal()
+        {
+            var model = new Ticket();
+            return PartialView(model);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Project Manager")]
+        public async Task<ActionResult> AssignDeveloper(string developerId, int ticketId)
+        {
+            var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticketId);
+
+            var ticket = db.Tickets.Find(ticketId);
+            if (string.IsNullOrEmpty(developerId))
+            {
+                ticket.TicketStatusId = db.TicketStatuses.Where(s => s.Name == "Open").FirstOrDefault().Id;
+                ticket.DeveloperId = null;
+            }
+            else
+            {
+                ticket.TicketStatusId = db.TicketStatuses.Where(s => s.Name == "Assigned").FirstOrDefault().Id;
+                ticket.DeveloperId = developerId;
+            }
+
+            db.SaveChanges();
+
+            var newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticketId);
+            await notificationHelper.ManageNotifications(oldTicket, newTicket);
+            historyHelper.DeveloperUpdate(oldTicket, newTicket);
+
+            return RedirectToAction("Dashboard", "Tickets", new { Id = ticketId });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Developer,Submitter")]
+        public ActionResult UpdateTicketIssue(string ticketDescription, string ticketTitle, int ticketId)
+        {
+            var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticketId);
+            db.Tickets.Find(ticketId).Issue = ticketTitle;
+            db.Tickets.Find(ticketId).IssueDescription = ticketDescription;
+            db.SaveChanges();
+            var newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticketId);
+            historyHelper.TitleUpdate(oldTicket, newTicket);
+
+            return RedirectToAction("Dashboard", "Tickets", new { Id = ticketId });
+            
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Developer,Submitter")]
+        public ActionResult UpdateTicketInfo(int ticketPriorityId, int ticketStatusId, int ticketTypeId, int ticketId)
+        {
+            var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticketId);
+            db.Tickets.Find(ticketId).TicketPriorityId = ticketPriorityId;
+            db.Tickets.Find(ticketId).TicketStatusId = ticketStatusId;
+            db.Tickets.Find(ticketId).TicketTypeId = ticketTypeId;
+            db.SaveChanges();
+            var newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticketId);
+            historyHelper.PriorityUpdate(oldTicket, newTicket);
+            historyHelper.StatusUpdate(oldTicket, newTicket);
+            historyHelper.TypeUpdate(oldTicket, newTicket);
+
+            return RedirectToAction("Dashboard", "Tickets", new { Id = ticketId });
+        }
+
 
         protected override void Dispose(bool disposing)
         {

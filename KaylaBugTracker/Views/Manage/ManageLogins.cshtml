@@ -22,34 +22,36 @@
         if (Model.CurrentLogins.Count > 0)
         {
             <h4>Registered Logins</h4>
-            <table id="myTable" class="table table-bordered">
-                <tbody>
-                    @foreach (var account in Model.CurrentLogins)
-                    {
-                        <tr>
-                            <td>@account.LoginProvider</td>
-                            <td>
-                                @if (ViewBag.ShowRemoveButton)
-                                {
-                                    using (Html.BeginForm("RemoveLogin", "Manage"))
-                                    {
-                                        @Html.AntiForgeryToken()
-                                        <div>
-                                            @Html.Hidden("loginProvider", account.LoginProvider)
-                                            @Html.Hidden("providerKey", account.ProviderKey)
-                                            <input type="submit" class="btn btn-default" value="Remove" title="Remove this @account.LoginProvider login from your account" />
-                                        </div>
-                                    }
-                                }
-                                else
-                                {
-                                    @: &nbsp;
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+			<div class="table-responsive">
+				<table id="myTable" class="table table-hover table-striped table-borderless">
+					<tbody>
+						@foreach (var account in Model.CurrentLogins)
+						{
+							<tr>
+								<td>@account.LoginProvider</td>
+								<td>
+									@if (ViewBag.ShowRemoveButton)
+									{
+										using (Html.BeginForm("RemoveLogin", "Manage"))
+										{
+											@Html.AntiForgeryToken()
+											<div>
+												@Html.Hidden("loginProvider", account.LoginProvider)
+												@Html.Hidden("providerKey", account.ProviderKey)
+												<input type="submit" class="btn btn-default" value="Remove" title="Remove this @account.LoginProvider login from your account" />
+											</div>
+										}
+									}
+									else
+									{
+										@: &nbsp;
+									}
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
         }
         if (Model.OtherLogins.Count > 0)
         {

@@ -1,138 +1,258 @@
 ﻿@using Microsoft.AspNet.Identity
 @using KaylaBugTracker.ViewModels
+@using KaylaBugTracker.Helpers
 @model DashboardViewModel
 @{
 	ViewBag.Title = "Home Page";
-	var userHelper = new KaylaBugTracker.Helpers.UserHelper();
+	var userHelper = new UserHelper();
+	var projectHelper = new ProjectHelper();
+	var roleHelper = new UserRolesHelper();
+	var ticketHelper = new TicketHelper();
 }
 
 <style>
-	#myfirstchart {
+	#chart {
 		min-height: 250px;
+		min-width: 300px;
 	}
 </style>
 
 <div class="main-panel">
 	<div class="content-wrapper pb-0">
-		<div class="page-header">
-			<h5>This is your dashboard</h5>
-			<h1 class="mb-0">Hello @userHelper.GetFullName(User.Identity.GetUserId())</h1>
-		</div>
-		<div class="row">
-			<div class="col-sm-2 grid-margin stretch-card">
-				<div class="card">
-					<div class="card-body large-card">
-						<div class="d-xl-flex align-items-center mb-3">
-							<div class="icon-bg">
-								<i class="mdi mdi-tab"></i>
-							</div>
-							<div>
-								<h4 class="mb-2 font-weight-light">Tickets Count:</h4>
-							</div>
-						</div>
-						<div class="chart-wrapper">
-							<span class="h1 float-right">
-								@Model.TicketCount
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-2 grid-margin stretch-card">
-				<div class="card">
-					<div class="card-body large-card">
-						<div class="d-xl-flex align-items-center mb-3">
-							<div class="icon-bg">
-								<i class="mdi mdi-square-inc-cash"></i>
-							</div>
-							<div>
-								<h4 class="mb-2 font-weight-light">High Priority Tickets:</h4>
-
-							</div>
-						</div>
-						<div class="chart-wrapper">
-							<span class="h1 float-right">
-								@Model.HighPriorityTicketCount
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-2 grid-margin stretch-card">
-				<div class="card">
-					<div class="card-body large-card">
-						<div class="d-xl-flex align-items-center mb-3">
-							<div class="icon-bg">
-								<i class="mdi mdi-cart-plus"></i>
-							</div>
-							<div>
-								<h4 class="mb-2 font-weight-light">New Ticket Count:</h4>
-							</div>
-						</div>
-						<div class="chart-wrapper">
-							<span class="h1 float-right">
-								@Model.NewTicketCount
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-2 grid-margin stretch-card">
-				<div class="card">
-					<div class="card-body large-card">
-						<div class="d-xl-flex align-items-center mb-3">
-							<div class="icon-bg">
-								<i class="mdi mdi-tab"></i>
-							</div>
-							<div>
-								<h4 class="mb-2 font-weight-light">Projects Count:</h4>
-							</div>
-						</div>
-						<div class="chart-wrapper">
-							<span class="h1 float-right">
-								@Model.ProjectVM.ProjectCount
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-3 grid-margin stretch-card">
-				<div class="card">
-					<div class="card-body large-card">
-						<div class="d-xl-flex align-items-center mb-3">
-							<div class="icon-bg">
-								<i class="mdi mdi-tab"></i>
-							</div>
-							<div>
-								<h4 class="mb-2 font-weight-light">Projects Managers:</h4>
-							</div>
-						</div>
-						<div class="chart-wrapper">
-							<span class="float-right">
-								@foreach (var pm in Model.ProjectVM.AllPMs)
-								{
-									<h2>@pm.FullName</h2>
-								}
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-xl-6 col-lg-12 grid-margin">
-				<div class="row">
-					<div class="col-sm-12 grid-margin stretch-card">
+		<section class="content">
+			<div class="container-fluid">
+				<div class="row noMargin">
+					<div class="col-sm-2 grid-margin stretch-card firstRowDashboard">
 						<div class="card">
+							<div class="card-body largeCard">
+								<div class="d-xl-flex align-items-center mb-3 underIcon">
+									<div class="icon-bg">
+										<i class="mdi mdi-ticket-confirmation"></i>
+									</div>
+									<div>
+										<h4 class="mb-2 font-weight-light">Total Tickets:</h4>
+									</div>
+								</div>
+								<span class="h1 float-right">
+									@Model.TicketCount
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-2 grid-margin stretch-card firstRowDashboard">
+						<div class="card">
+							<div class="card-body largeCard">
+								<div class="d-xl-flex align-items-center mb-3 underIcon">
+									<div class="icon-bg">
+										<i class="mdi mdi-alert-box"></i>
+									</div>
+									<div>
+										<h4 class="mb-2 font-weight-light">High Priority Tickets:</h4>
+
+									</div>
+								</div>
+								<span class="h1 float-right">
+									@Model.HighPriorityTicketCount
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-2 grid-margin stretch-card firstRowDashboard">
+						<div class="card">
+							<div class="card-body largeCard">
+								<div class="d-xl-flex align-items-center mb-3 underIcon">
+									<div class="icon-bg">
+										<i class="mdi mdi-archive"></i>
+									</div>
+									<div>
+										<h4 class="mb-2 font-weight-light">Archived Tickets:</h4>
+									</div>
+								</div>
+								<span class="h1 float-right">
+									@ticketHelper.ArchivedTicketsCount()
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-2 grid-margin stretch-card firstRowDashboard">
+						<div class="card">
+							<div class="card-body largeCard">
+								<div class="d-xl-flex align-items-center mb-3 underIcon">
+									<div class="icon-bg">
+										<i class="mdi mdi-check-circle"></i>
+									</div>
+									<div>
+										<h4 class="mb-2 font-weight-light">Resolved Tickets:</h4>
+									</div>
+								</div>
+								<span class="h1 float-right">
+									@ticketHelper.ResolvedTicketsCount()
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-2 grid-margin stretch-card firstRowDashboard">
+						<div class="card">
+							<div class="card-body largeCard">
+								<div class="d-xl-flex align-items-center mb-3 underIcon">
+									<div class="icon-bg">
+										<i class="mdi mdi-folder"></i>
+									</div>
+									<div>
+										<h4 class="mb-2 font-weight-light">Projects Count:</h4>
+									</div>
+								</div>
+								<span class="h1 float-right">
+									@Model.ProjectVM.ProjectCount
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-2 grid-margin stretch-card firstRowDashboard">
+						<div class="card">
+							<div class="card-body largeCard">
+								<div class="d-xl-flex align-items-center mb-3 underIcon">
+									<div class="icon-bg">
+										<i class="mdi mdi-archive"></i>
+									</div>
+									<div>
+										<h4 class="mb-2 font-weight-light">Archived Projects:</h4>
+									</div>
+								</div>
+								<span class="h1 float-right">
+									@ticketHelper.ArchivedProjectsCount()
+								</span>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<hr />
+				<div id="accordion" class="accordion" role="tablist" aria-multiselectable="true">
+					<div class="card">
+						<div class="card-header" role="tab" id="headingOne">
+							<h3 class="mb-0 text-center">
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+									Users & Their Roles
+								</a>
+							</h3>
+						</div>
+						<div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
 							<div class="card-body">
-								<p class="card-title mb-1">Projects</p>
 								<div class="row">
-									<div class="col-sm-8 grid-margin">
-										<table id="myTable" class="table table-bordered">
+									<div class="col-12 col-lg-3">
+										<div class="card border-0 dashboardSecondRow">
+											<div class="card-body large-card">
+												<div class="d-xl-flex align-items-center mb-3 underIcon">
+													<div class="icon-bg">
+														<i class="mdi mdi-account-tie"></i>
+													</div>
+													<div>
+														<h2 class="mb-2 font-weight-light">Admin:</h2>
+													</div>
+												</div>
+												<div class="chart-wrapper">
+													<span class="float-right">
+														@foreach (var user in roleHelper.UsersInRole("Admin").ToList())
+														{
+															<h3>@user.FullName</h3>
+														}
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-12 col-lg-3">
+										<div class="card border-0 dashboardSecondRow">
+											<div class="card-body large-card">
+												<div class="d-xl-flex align-items-center mb-3 underIcon">
+													<div class="icon-bg">
+														<i class="mdi mdi-account-tie"></i>
+													</div>
+													<div>
+														<h2 class="mb-2 font-weight-light">Projects Managers:</h2>
+													</div>
+												</div>
+												<div class="chart-wrapper">
+													<span class="float-right">
+														@foreach (var pm in Model.ProjectVM.AllPMs)
+														{
+															<h3>@pm.FullName</h3>
+														}
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-12 col-lg-3">
+										<div class="card border-0 dashboardSecondRow">
+											<div class="card-body large-card">
+												<div class="d-xl-flex align-items-center mb-3 underIcon">
+													<div class="icon-bg">
+														<i class="mdi mdi-account-tie"></i>
+													</div>
+													<div>
+														<h2 class="mb-2 font-weight-light">Developers:</h2>
+													</div>
+												</div>
+												<div class="chart-wrapper">
+													<span class="float-right">
+														@foreach (var user in roleHelper.UsersInRole("Developer").ToList())
+														{
+															<h3>@user.FullName</h3>
+														}
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-12 col-lg-3">
+										<div class="card border-0 dashboardSecondRow">
+											<div class="card-body large-card">
+												<div class="d-xl-flex align-items-center mb-3 underIcon">
+													<div class="icon-bg">
+														<i class="mdi mdi-account-tie"></i>
+													</div>
+													<div>
+														<h2 class="mb-2 font-weight-light">Submitters:</h2>
+													</div>
+												</div>
+												<span class="float-right">
+													@foreach (var user in roleHelper.UsersInRole("Submitter").ToList())
+													{
+														<h3>@user.FullName</h3>
+													}
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header" role="tab" id="headingTwo">
+							<h5 class="mb-0 text-center">
+								<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+									Projects
+								</a>
+							</h5>
+						</div>
+						<div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+							<div class="card-body">
+								<div class="col-sm-12 grid-margin">
+									<div class="table-responsive">
+										<table id="myTable" class="table table-hover table-striped table-borderless">
 											<thead>
 												<tr>
 													<th>
 														@Html.DisplayName("Project Name")
+													</th>
+													<th>
+														Project Manager
+													</th>
+													<th>
+														Developers
 													</th>
 													<th>
 														@Html.DisplayName("Created")
@@ -146,9 +266,37 @@
 											<tbody>
 												@foreach (var project in Model.ProjectVM.AllProjects)
 												{
+													var projectManager = projectHelper.ListUsersOnProjectInRole(project.Id, "Project Manager");
+													var developer = projectHelper.ListUsersOnProjectInRole(project.Id, "Developer");
 													<tr>
 														<td>
 															@Html.DisplayFor(modelItem => project.Name)
+														</td>
+														<td>
+															@if (projectManager.Count > 0)
+															{
+																foreach (var pm in projectManager)
+																{
+																	@pm.FullName
+																}
+															}
+															else
+															{
+																<h4>No Project Manager Assigned</h4>
+															}
+														</td>
+														<td>
+															@if (developer.Count > 0)
+															{
+																foreach (var dev in developer)
+																{
+																	@dev.FullName<br />
+																}
+															}
+															else
+															{
+																<h4>No Developer Assigned</h4>
+															}
 														</td>
 														<td>
 															@Html.DisplayFor(modelItem => project.Created)
@@ -157,7 +305,6 @@
 															@Html.DisplayFor(modelItem => project.IsArchived)
 														</td>
 														<td>
-															@Html.ActionLink("Edit", "Edit", "Projects", new { id = project.Id }, null) |
 															@Html.ActionLink("Details", "Details", "Projects", new { id = project.Id }, null)
 														</td>
 													</tr>
@@ -165,29 +312,68 @@
 											</tbody>
 										</table>
 									</div>
-									<div class="col-sm-4 grid-margin">
-										<div class="canvas-bar-wrapper">
-											<canvas id="performanceChart"></canvas>
-										</div>
-									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-12">
-						<div class="row">
-
+				</div>
+				<hr />
+				<div class="row noMargin">
+				<div class="col-sm-4 grid-margin stretch-card">
+					<div class="card">
+						<div class="card-body large-card">
+							<div class="d-xl-flex align-items-center mb-3">
+								<div class="icon-bg">
+									<i class="mdi mdi-ticket-confirmation"></i>
+								</div>
+								<div>
+									<h3 class="mb-2">Tickets Priority</h3>
+								</div>
+							</div>
+							<div id="ticketprioritychart" class="chart"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4 grid-margin stretch-card">
+					<div class="card">
+						<div class="card-body large-card">
+							<div class="d-xl-flex align-items-center mb-3">
+								<div class="icon-bg">
+									<i class="mdi mdi-ticket-confirmation"></i>
+								</div>
+								<div>
+									<h3 class="mb-2">Tickets Type</h3>
+								</div>
+							</div>
+							<div id="tickettypechart"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4 grid-margin stretch-card">
+					<div class="card">
+						<div class="card-body large-card">
+							<div class="d-xl-flex align-items-center mb-3">
+								<div class="icon-bg">
+									<i class="mdi mdi-ticket-confirmation"></i>
+								</div>
+								<div>
+									<h3 class="mb-2">Tickets Status</h3>
+								</div>
+							</div>
+							<div id="ticketstatuschart"></div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		
+			</div>
+		</section>
 	</div>
-	<!-- content-wrapper ends -->
-	<!-- partial:partials/_footer.html -->
-	<!-- partial -->
-</div>
+</div>	
+
+<!-- content-wrapper ends -->
+<!-- partial:partials/_footer.html -->
+<!-- partial -->
+
 
 
 
@@ -197,98 +383,98 @@
 		$.ajax({
 			type: 'POST',
 			contentType: "applications/json; charset=utf-8",
-			url: ,
+			url: url,
 			dataType: 'json',
-			data: JSON.stringify(Meeting),
 			success: function (response) {
 				new Morris.Bar({
 					// ID of the element in which to draw the chart.
-					element: 'myfirstchart',
+					element: 'ticketprioritychart',
 					// Chart data records -- each entry in this array corresponds to a point on
 					// the chart.
 					data: response,
 					// The name of the data record attribute that contains x-values.
-					xkey: 'priority',
+					xkey: 'Label',
 					// A list of names of data record attributes that contain y-values.
 					ykeys: ['Value'],
 					// Labels for the ykeys -- will be displayed when you hover over the
 					// chart.
-					labels: ['Value']
+					labels: ['Value'],
+					barColors: ['#D8A47F']
 				});
 			},
 			error: function (jqXHR, textStatus, errorThrown)
 			{
-				alert:
+				alert('bad,' + errorThrown + "," + jqXHR.responseText + "," + textStatus);
 			}
 		})
 
 
-		
+
 	</script>
 	<script>
-		var url = '@Url.Action("GetAllTicketPriorityData", "MorrisCharts")'
+		var url = '@Url.Action("GetAllTicketTypeData", "MorrisCharts")'
 		$.ajax({
 			type: 'POST',
 			contentType: "applications/json; charset=utf-8",
-			url: ,
+			url: url,
 			dataType: 'json',
-			data: JSON.stringify(Meeting),
 			success: function (response) {
 				new Morris.Bar({
 					// ID of the element in which to draw the chart.
-					element: 'myfirstchart',
+					element: 'tickettypechart',
 					// Chart data records -- each entry in this array corresponds to a point on
 					// the chart.
 					data: response,
 					// The name of the data record attribute that contains x-values.
-					xkey: 'priority',
+					xkey: 'Label',
 					// A list of names of data record attributes that contain y-values.
 					ykeys: ['Value'],
 					// Labels for the ykeys -- will be displayed when you hover over the
 					// chart.
-					labels: ['Value']
+					labels: ['Value'],
+					barColors: ['#D8A47F']
 				});
 			},
 			error: function (jqXHR, textStatus, errorThrown)
 			{
-				alert:
+				alert('bad,' + errorThrown + "," + jqXHR.responseText + "," + textStatus);
 			}
 		})
 
 
-		
+
 	</script>
 	<script>
-		var url = '@Url.Action("GetAllTicketPriorityData", "MorrisCharts")'
+		var url = '@Url.Action("GetAllTicketStatusData", "MorrisCharts")'
 		$.ajax({
 			type: 'POST',
 			contentType: "applications/json; charset=utf-8",
-			url: ,
+			url: url,
 			dataType: 'json',
-			data: JSON.stringify(Meeting),
 			success: function (response) {
 				new Morris.Bar({
 					// ID of the element in which to draw the chart.
-					element: 'myfirstchart',
+					element: 'ticketstatuschart',
 					// Chart data records -- each entry in this array corresponds to a point on
 					// the chart.
 					data: response,
 					// The name of the data record attribute that contains x-values.
-					xkey: 'priority',
+					xkey: 'Label',
 					// A list of names of data record attributes that contain y-values.
 					ykeys: ['Value'],
 					// Labels for the ykeys -- will be displayed when you hover over the
 					// chart.
-					labels: ['Value']
+					labels: ['Value'],
+					barColors: ['#D8A47F']
 				});
 			},
 			error: function (jqXHR, textStatus, errorThrown)
 			{
-				alert:
+				alert('bad,' + errorThrown + "," + jqXHR.responseText + "," + textStatus);
 			}
 		})
 
 
-		
+
 	</script>
 }

@@ -47,6 +47,7 @@ namespace KaylaBugTracker.Models
         #endregion
 
         #region Constructor
+
         public Ticket()
         {
             Attachments = new HashSet<TicketAttachment>();
@@ -54,6 +55,8 @@ namespace KaylaBugTracker.Models
             Histories = new HashSet<TicketHistory>();
             Notifications = new HashSet<TicketNotification>();
         }
+
+
         #endregion
     }
 }

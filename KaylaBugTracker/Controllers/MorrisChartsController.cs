@@ -52,5 +52,20 @@ namespace KaylaBugTracker.Controllers
 
 			return Json(data);
         }
-    }
+		public JsonResult GetAllTicketTypeData()
+		{
+			var tickets = db.Tickets.ToList();
+			var data = new List<MorrisChartData>();
+			foreach (var type in db.TicketTypes.ToList())
+			{
+				data.Add(new MorrisChartData()
+				{
+					Label = type.Name,
+					Value = tickets.Where(t => t.TicketTypeId == type.Id).Count()
+				});
+			}
+
+			return Json(data);
+		}
+	}
 }

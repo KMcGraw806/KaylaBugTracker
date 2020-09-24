@@ -469,7 +469,7 @@
         {
           label: "# of Votes",
           data: [10, 13, 11, 16, 12, 15],
-          borderColor: ["#04c9b7"],
+          borderColor: ["#1D9A85"],
           backgroundColor: ["#acefe8"],
           borderWidth: 2,
           fill: true,
@@ -542,7 +542,7 @@
         {
           label: "# of Votes",
           data: [10, 13, 11, 16, 12, 15],
-          borderColor: ["#04c9b7"],
+          borderColor: ["#1D9A85"],
           backgroundColor: ["#acefe8"],
           borderWidth: 2,
           fill: true,
@@ -634,7 +634,7 @@
           label: "# of Votes",
           data: [250, 260, 290, 200, 280, 200, 300, 270, 285, 350, 340, 300],
           backgroundColor: saleGradientBg,
-          borderColor: ["#04c9b7"],
+          borderColor: ["#1D9A85"],
           borderWidth: 1,
           fill: true, // 3: no fill
           pointBorderWidth: 0,
@@ -1328,7 +1328,7 @@
       [
         {
           data: dashData4,
-          color: "#04c9b7",
+          color: "#1D9A85",
           lines: {
             fillColor: "rgba(174, 224, 221, .12)",
           },

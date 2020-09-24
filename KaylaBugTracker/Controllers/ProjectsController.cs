@@ -32,7 +32,7 @@ namespace KaylaBugTracker.Controllers
             if (User.IsInRole("Project Manager") || User.IsInRole("Developer") || User.IsInRole("Submitter"))
             {
                 var userId = User.Identity.GetUserId();
-                model = (List<Project>)userHelper.ListUserProjects(userId);
+                model = projectHelper.ListUserProjects(userId).ToList();
             }
             return View(model);
         }
@@ -177,6 +177,70 @@ namespace KaylaBugTracker.Controllers
                 return RedirectToAction("Index");
             }
             return View(project);
+        }
+
+        public PartialViewResult _ProjectModal()
+        {
+            var model = new Project();
+            return PartialView(model);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Project Manager")]
+        public ActionResult EditProject(List<string> managerIds, List<string> developerIds, List<string> submitterIds, string projectName, int projectId)
+        {
+            // if managerIds is empty, we still want to remove all the users from this project,
+            // because that could be the user's intent
+            foreach (var userId in projectHelper.ListUserIdsOnProjectInRole(projectId, "Project Manager"))
+            {
+                projectHelper.RemoveUserFromProject(userId, projectId);
+            }
+
+            if (managerIds.Count == 0)
+            {
+                return RedirectToAction("Dashboard", "Projects", new { Id = projectId });
+            }
+
+            foreach (var Id in managerIds)
+            {
+                if (!string.IsNullOrEmpty(Id))
+                {
+                    projectHelper.AddUserToProject(Id, projectId);
+                }
+            }
+
+            foreach (var userId in projectHelper.ListUserIdsOnProjectInRole(projectId, "Developer"))
+            {
+                projectHelper.RemoveUserFromProject(userId, projectId);
+            }
+
+            foreach (var Id in developerIds)
+            {
+                if (!string.IsNullOrEmpty(Id))
+                {
+                    projectHelper.AddUserToProject(Id, projectId);
+                }
+            }
+
+            foreach (var userId in projectHelper.ListUserIdsOnProjectInRole(projectId, "Submitter"))
+            {
+                projectHelper.RemoveUserFromProject(userId, projectId);
+            }
+
+            foreach (var Id in submitterIds)
+            {
+                if (!string.IsNullOrEmpty(Id))
+                {
+                    projectHelper.AddUserToProject(Id, projectId);
+                }
+            }
+
+            db.Projects.Find(projectId).Name = projectName;
+            db.SaveChanges();
+
+            return RedirectToAction("Details", "Projects", new { Id = projectId });
         }
 
         // GET: Projects/Delete/5

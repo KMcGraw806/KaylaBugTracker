@@ -11,36 +11,38 @@
 		<div class="card">
 
 			<div class="card-body">
-				<table id="myTable" class="table table-bordered">
-					<thead>
-						<tr>
-							<th>
-								@Html.DisplayName("Full Name")
-							</th>
-							<th>
-								@Html.DisplayNameFor(model => model.Email)
-							</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						@foreach (var user in Model)
-						{
+				<div class="table-responsive">
+					<table id="myTable" class="table table-hover table-striped table-borderless">
+						<thead>
 							<tr>
-								<td>
-									@Html.DisplayFor(modelItem => user.FullName)
-								</td>
-								<td>
-									@Html.DisplayFor(modelItem => user.Email)
-								</td>
-								<td>
-									@Html.ActionLink("Manage Role", "ManageUserRoles", new { id = user.Id }) |
-									@Html.ActionLink("Manage Projects", "ManageProjectUsers", "Assignments", new { id = user.Id }, null)
-								</td>
+								<th>
+									@Html.DisplayName("Full Name")
+								</th>
+								<th>
+									@Html.DisplayNameFor(model => model.Email)
+								</th>
+								<th></th>
 							</tr>
-						}
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+							@foreach (var user in Model)
+							{
+								<tr>
+									<td>
+										@Html.DisplayFor(modelItem => user.FullName)
+									</td>
+									<td>
+										@Html.DisplayFor(modelItem => user.Email)
+									</td>
+									<td>
+										@Html.ActionLink("Manage Role", "ManageUserRoles", new { id = user.Id }) |
+										@Html.ActionLink("Manage Projects", "ManageProjectUsers", "Assignments", new { id = user.Id }, null)
+									</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

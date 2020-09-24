@@ -15,7 +15,7 @@ namespace KaylaBugTracker.Helpers
         private UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>
             (new UserStore<ApplicationUser>(new ApplicationDbContext()));
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        
         public bool IsUserInRole(string userId, string roleName)
         {
             return userManager.IsInRole(userId, roleName);
@@ -33,6 +33,11 @@ namespace KaylaBugTracker.Helpers
         {
             var result = userManager.RemoveFromRole(userId, roleName);
             return result.Succeeded;
+        }
+
+        public ICollection<ApplicationUser> ListUsersOnProject(int projectId)
+        {
+            return db.Projects.Find(projectId).Users;
         }
 
         public ICollection<ApplicationUser> UsersInRole(string roleName)
@@ -58,6 +63,19 @@ namespace KaylaBugTracker.Helpers
                     resultList.Add(user);
             }
 
+            return resultList;
+        }
+        public List<ApplicationUser> ListUsersOnProjectInRole(int projectId, string roleName)
+        {
+            var userList = ListUsersOnProject(projectId);
+            var resultList = new List<ApplicationUser>();
+            foreach (var user in userList)
+            {
+                if (IsUserInRole(user.Id, roleName))
+                {
+                    resultList.Add(user);
+                }
+            }
             return resultList;
         }
     }

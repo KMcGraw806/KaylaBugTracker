@@ -11,12 +11,12 @@
 	<!-- Required meta tags -->
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<title>Bug Tracking with Kayla</title>
+	<title>KSM Bug Tracker</title>
 	<link rel="shortcut icon" href="~/Images/favicon-32x32.png" />
 	<!-- plugins:css -->
 	<link href="~/Content/materialdesignicons.min.css" rel="stylesheet" />
 	<link href="~/Content/vendor.bundle.base.css" rel="stylesheet" />
-	<link href="~/Content/datatables.min.css" rel="stylesheet" />
+	<link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css" rel="stylesheet" />
 	<!-- endinject -->
 	<!-- Plugin css for this page -->
 	<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
@@ -26,10 +26,11 @@
 	<!-- endinject -->
 	<!-- Layout styles -->
 	<link href="~/Content/style.css" rel="stylesheet" />
-	<link href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css" rel="stylesheet">
+	<link href="~/Content/morris.css" rel="stylesheet" />
 	<link href="~/Content/custom.css" rel="stylesheet" />
-	
-	
+	<link href="~/Content/datatables.min.css" rel="stylesheet" />
+
+
 	<!-- End layout styles -->
 
 </head>
@@ -65,7 +66,7 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" data-toggle="collapse" href="#page-layouts" aria-expanded="false" aria-controls="page-layouts">
-						<i class="mdi mdi-apps menu-icon"></i>
+						<i class="mdi mdi-ticket-confirmation menu-icon"></i>
 						<span class="menu-title">Tickets</span>
 						<i class="menu-arrow"></i>
 					</a>
@@ -90,7 +91,7 @@
 				{
 					<li class="nav-item">
 						<a class="nav-link" data-toggle="collapse" href="#sidebar-layouts" aria-expanded="false" aria-controls="sidebar-layouts">
-							<i class="mdi mdi-playlist-play menu-icon"></i>
+							<i class="mdi mdi-account-group menu-icon"></i>
 							<span class="menu-title">Users</span>
 							<i class="menu-arrow"></i>
 						</a>
@@ -110,7 +111,7 @@
 				}
 				<li class="nav-item">
 					<a class="nav-link" href="@Url.Action("Index","Projects")">
-						<i class="mdi mdi-forum-outline menu-icon"></i>
+						<i class="mdi mdi-folder menu-icon"></i>
 						<span class="menu-title">Projects</span>
 					</a>
 				</li>
@@ -221,6 +222,7 @@
 						<li class="nav-item dropdown dropleft">
 							<a class="nav-link" id="notificationDropdown" href="#" data-toggle="dropdown">
 								<i class="mdi mdi-bell-outline"></i>
+								<div class="notification"><span class="heartbit"></span><span class="point"></span></div>
 							</a>
 							<div class="dropdown-menu navbar-dropdown navbar-dropdown-large preview-list dropdown-menu-right" aria-labelledby="notificationDropdown">
 								<h6 class="p-3 mb-0 ">Notifications</h6>
@@ -251,14 +253,16 @@
 	</div>
 	<!-- container-scroller -->
 
-	
+
 	@Scripts.Render("~/bundles/jquery")
 	@Scripts.Render("~/bundles/bootstrap")
 	<!-- plugins:js -->
+	<script src="~/Scripts/dataTables.bootstrap4.js"></script>
 	<script src="~/Scripts/vendor.bundle.base.js"></script>
-
 	<!-- endinject -->
 	<!-- Plugin js for this page -->
+	<script src="~/Scripts/datatables.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 	<script src="~/Scripts/chart.js"></script>
 	<script src="~/Scripts/jquery-jvectormap.min.js"></script>
 	<script src="~/Scripts/jquery-jvectormap-world-mill-en.js"></script>
@@ -282,28 +286,29 @@
 	<script src="~/Scripts/dashboard.js"></script>
 	<script src="~/Scripts/summernote.js"></script>
 	<script src="~/Scripts/jquery.steps.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+	
 	<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-	<script src="~/Scripts/datatables.min.js"></script>
-	<script src="~/Scripts/jquery.dataTables.min.js"></script>
-		<script>
+
+	<script>
+		$(document).ready(function () {
 			$('#myTable').DataTable();
 			$('#myTable2').DataTable();
 			$('#myTable3').DataTable();
-		</script>
-		<script>
-			var form = $("#example-form");
-			form.children("div").steps({
-				headerTag: "h3",
-				bodyTag: "section",
-				transitionEffect: "slideLeft",
-				onFinished: function (event, currentIndex) {
-					alert("Submitted!");
-				}
-			});
-		</script>
-	
+		});
+	</script>
+	<script>
+		var form = $("#example-form");
+		form.children("div").steps({
+			headerTag: "h3",
+			bodyTag: "section",
+			transitionEffect: "slideLeft",
+			onFinished: function (event, currentIndex) {
+				alert("Submitted!");
+			}
+		});
+	</script>
+
 	@RenderSection("scripts", required: false)
 	<!-- End custom js for this page -->
 </body>

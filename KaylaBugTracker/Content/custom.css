@@ -32,7 +32,7 @@
 	height: 30px;
 	border-radius: 3px;
 	border: 1px solid #c9c8c8;
-	margin-top: 4.5%;
+	
 }
 #UserIds {
 	width: 100%;
@@ -53,4 +53,66 @@
 }
 .issueBox {
 	width: 100%;
+}
+.firstRowDashboard {
+	max-height: 120px;
+	
+}
+.projectCreateTicket {
+	padding:100px !important;
+}
+.projDetails {
+	min-height:160px;
+}
+.projDetailBody {
+	padding-top: 5px !important;
+	padding-bottom: 5px !important;
+}
+.dashboardTopRow{
+	height: 120px;
+}
+.dashboardSecondRow {
+	height: 200px;
+}
+.underIcon {
+	margin-bottom: 0rem !important;
+}
+.largeCard {
+	padding-top: 24px !important;
+	padding-left: 24px !important;
+	padding-right: 24px !important;
+	padding-bottom: 5px !important;
+}
+.noMargin {
+	margin-left: -6px;
+	margin-right: -6px;
+}
+.projectDetails {
+	color: white !important;
+}
+.modalIcon {
+	color: #ffffff !important;
+}
+.modalIcon:hover {
+	color: #ffffff !important;
+}
+.matchButton {
+	padding: 8px 14px;
+	height: 79px;
+	line-height: 64px;
+}
+.addTicketModal {
+	margin: auto !important;
+}
+.modalPriority {
+	margin-right: 10px;
+}
+.typeLabel {
+	margin-right: 5px !important;
+}
+.ticketDetails {
+	min-height: 200px;
+}
+.noPaddingBtn {
+	padding: 0px 0px !important;
 }

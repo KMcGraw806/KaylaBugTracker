@@ -261,6 +261,7 @@ namespace KaylaBugTracker.Migrations
             projectManagers.AddRange(roleHelper.UsersInRole("Project Manager"));
             developers.AddRange(roleHelper.UsersInRole("Developer"));
             submitters.AddRange(roleHelper.UsersInRole("Submitter"));
+
             #region Assigning users to projects by role
             foreach (var project in context.Projects)
             {
@@ -289,51 +290,55 @@ namespace KaylaBugTracker.Migrations
                 projectHelper.AddUserToProject(secondSub, project.Id);
             }
             #endregion
-            foreach(var project in context.Projects.ToList())
-            {
-                projectManagers = projectHelper.ListUsersOnProjectInRole(project.Id, "Project Manager");
-                developers = projectHelper.ListUsersOnProjectInRole(project.Id, "Developer");
-                submitters = projectHelper.ListUsersOnProjectInRole(project.Id, "Submitter");
-                foreach (var type in context.TicketTypes.ToList())
-                { 
-                    foreach(var status in context.TicketStatuses.ToList())
-                    {
-                        foreach(var priority in context.TicketPriorities.ToList())
-                        {
-                            var developerId = developers[random.Next(developers.Count)].Id;
-                            if(status.Name == "Open")
-                            {
-                                developerId = null;
-                            }
-                            var resolved = false;
-                            var archived = false;
-                            if(status.Name == "Resolved")
-                            {
-                                resolved = true;
-                            }
-                            if(status.Name == "Archived" || project.IsArchived)
-                            {
-                                archived = true;
-                            }
-                            var newTicket = new Ticket()
-                            {
-                                ProjectId = project.Id,
-                                TicketPriorityId = priority.Id,
-                                TicketTypeId = type.Id,
-                                TicketStatusId = status.Id,
-                                SubmitterId = submitters[random.Next(submitters.Count)].Id,
-                                DeveloperId = developerId,
-                                Created = DateTime.Now,
-                                Issue = $"This is a seeded ticket of type {type.Name} with a status of {status.Name} and {priority.Name} priority",
-                                IssueDescription = $"This is a description of a ticket of type {type.Name} on {project.Name}",
-                                IsResolved = resolved,
-                                IsArchived = archived
-                            };
-                            ticketList.Add(newTicket);
-                        }
-                    }
-                }
-            }
+
+            SeedHelper seedHelper = new SeedHelper(context);
+            seedHelper.SeedTickets();
+
+            //foreach (var project in context.Projects.ToList())
+            //{
+            //    projectManagers = projectHelper.ListUsersOnProjectInRole(project.Id, "Project Manager");
+            //    developers = projectHelper.ListUsersOnProjectInRole(project.Id, "Developer");
+            //    submitters = projectHelper.ListUsersOnProjectInRole(project.Id, "Submitter");
+            //    foreach (var type in context.TicketTypes.ToList())
+            //    { 
+            //        foreach(var status in context.TicketStatuses.ToList())
+            //        {
+            //            foreach(var priority in context.TicketPriorities.ToList())
+            //            {
+            //                var developerId = developers[random.Next(developers.Count)].Id;
+            //                if(status.Name == "Open")
+            //                {
+            //                    developerId = null;
+            //                }
+            //                var resolved = false;
+            //                var archived = false;
+            //                if(status.Name == "Resolved")
+            //                {
+            //                    resolved = true;
+            //                }
+            //                if(status.Name == "Archived" || project.IsArchived)
+            //                {
+            //                    archived = true;
+            //                }
+            //                var newTicket = new Ticket()
+            //                {
+            //                    ProjectId = project.Id,
+            //                    TicketPriorityId = priority.Id,
+            //                    TicketTypeId = type.Id,
+            //                    TicketStatusId = status.Id,
+            //                    SubmitterId = submitters[random.Next(submitters.Count)].Id,
+            //                    DeveloperId = developerId,
+            //                    Created = DateTime.Now,
+            //                    Issue = $"This is a seeded ticket of type {type.Name} with a status of {status.Name} and {priority.Name} priority",
+            //                    IssueDescription = $"This is a description of a ticket of type {type.Name} on {project.Name}",
+            //                    IsResolved = resolved,
+            //                    IsArchived = archived
+            //                };
+            //                ticketList.Add(newTicket);
+            //            }
+            //        }
+            //    }
+            //}
             context.Tickets.AddRange(ticketList);
             context.SaveChanges();
             #endregion
