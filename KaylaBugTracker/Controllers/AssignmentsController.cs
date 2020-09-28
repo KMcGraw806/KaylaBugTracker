@@ -30,7 +30,7 @@ namespace KaylaBugTracker.Controllers
         public ActionResult ManageRoles(List<string> userIds, string roleName)
         {
             if (userIds == null)
-                return RedirectToAction("RolesIndex");
+                return RedirectToAction("ManageRoles");
 
             foreach (var userId in userIds)
             {

@@ -119,6 +119,7 @@ namespace KaylaBugTracker.Controllers
             #endregion
             if (ModelState.IsValid)
             {
+
                 Project project = new Project();
                 project.Name = model.Name;
                 project.Created = DateTime.Now;
@@ -185,6 +186,16 @@ namespace KaylaBugTracker.Controllers
             return PartialView(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Project Manager")]
+        public ActionResult EditProjectName(string projectName, int projectId)
+        {
+            db.Projects.Find(projectId).Name = projectName;
+            db.SaveChanges();
+
+            return RedirectToAction("Details", "Projects", new { Id = projectId });
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -236,8 +247,6 @@ namespace KaylaBugTracker.Controllers
                     projectHelper.AddUserToProject(Id, projectId);
                 }
             }
-
-            db.Projects.Find(projectId).Name = projectName;
             db.SaveChanges();
 
             return RedirectToAction("Details", "Projects", new { Id = projectId });

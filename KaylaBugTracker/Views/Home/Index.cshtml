@@ -319,56 +319,56 @@
 				</div>
 				<hr />
 				<div class="row noMargin">
-				<div class="col-sm-4 grid-margin stretch-card">
-					<div class="card">
-						<div class="card-body large-card">
-							<div class="d-xl-flex align-items-center mb-3">
-								<div class="icon-bg">
-									<i class="mdi mdi-ticket-confirmation"></i>
+					<div class="col-sm-4 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body large-card">
+								<div class="d-xl-flex align-items-center mb-3">
+									<div class="icon-bg">
+										<i class="mdi mdi-ticket-confirmation"></i>
+									</div>
+									<div>
+										<h3 class="mb-2">Tickets Priority</h3>
+									</div>
 								</div>
-								<div>
-									<h3 class="mb-2">Tickets Priority</h3>
-								</div>
+								<div id="ticketprioritychart" class="chart"></div>
 							</div>
-							<div id="ticketprioritychart" class="chart"></div>
+						</div>
+					</div>
+					<div class="col-sm-4 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body large-card">
+								<div class="d-xl-flex align-items-center mb-3">
+									<div class="icon-bg">
+										<i class="mdi mdi-ticket-confirmation"></i>
+									</div>
+									<div>
+										<h3 class="mb-2">Tickets Type</h3>
+									</div>
+								</div>
+								<div id="tickettypechart"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body large-card">
+								<div class="d-xl-flex align-items-center mb-3">
+									<div class="icon-bg">
+										<i class="mdi mdi-ticket-confirmation"></i>
+									</div>
+									<div>
+										<h3 class="mb-2">Tickets Status</h3>
+									</div>
+								</div>
+								<div id="ticketstatuschart"></div>
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-4 grid-margin stretch-card">
-					<div class="card">
-						<div class="card-body large-card">
-							<div class="d-xl-flex align-items-center mb-3">
-								<div class="icon-bg">
-									<i class="mdi mdi-ticket-confirmation"></i>
-								</div>
-								<div>
-									<h3 class="mb-2">Tickets Type</h3>
-								</div>
-							</div>
-							<div id="tickettypechart"></div>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-4 grid-margin stretch-card">
-					<div class="card">
-						<div class="card-body large-card">
-							<div class="d-xl-flex align-items-center mb-3">
-								<div class="icon-bg">
-									<i class="mdi mdi-ticket-confirmation"></i>
-								</div>
-								<div>
-									<h3 class="mb-2">Tickets Status</h3>
-								</div>
-							</div>
-							<div id="ticketstatuschart"></div>
-						</div>
-					</div>
-				</div>
-			</div>
 			</div>
 		</section>
 	</div>
-</div>	
+</div>
 
 <!-- content-wrapper ends -->
 <!-- partial:partials/_footer.html -->
@@ -378,6 +378,18 @@
 
 
 @section scripts{
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>
+<script src="~/Scripts/datatables.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			$('#myTable').DataTable();
+			$('#myTable2').DataTable();
+			$('#myTable3').DataTable();
+		});
+	</script>
+
+
 	<script>
 		var url = '@Url.Action("GetAllTicketPriorityData", "MorrisCharts")'
 		$.ajax({

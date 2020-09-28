@@ -12,8 +12,13 @@ namespace KaylaBugTracker.Helpers
     public class NotificationHelper
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserRolesHelper rolesHelper = new UserRolesHelper();
+        private ProjectHelper projectHelper = new ProjectHelper();
+        private UserHelper userHelper = new UserHelper();
+        private TicketHelper ticketHelper = new TicketHelper();
         EmailService svc = new EmailService();
         string from = "Kayla Bug Tracker";
+
         public async Task ManageNotifications(Ticket oldTicket, Ticket newTicket)
         {
             var ticketAssigned = oldTicket.DeveloperId != newTicket.DeveloperId && newTicket.DeveloperId != null;
@@ -21,16 +26,16 @@ namespace KaylaBugTracker.Helpers
             var ticketReassinged = oldTicket.DeveloperId != newTicket.DeveloperId && oldTicket.DeveloperId != null && newTicket.DeveloperId != null;
             if (ticketAssigned)
             {
-                AddAssignmentNotification(newTicket);
+                await AddAssignmentNotification(newTicket);
             }
             else if (ticketUnassigned)
             {
-                AddUnassignmentNotification(oldTicket);
+                await AddUnassignmentNotification(oldTicket);
             }
             else if (ticketReassinged)
             {
-                AddAssignmentNotification(newTicket);
-                AddUnassignmentNotification(oldTicket);
+                await AddAssignmentNotification(newTicket);
+                await AddUnassignmentNotification(oldTicket);
             }
         }
         private async Task AddAssignmentNotification(Ticket newTicket)
@@ -45,10 +50,11 @@ namespace KaylaBugTracker.Helpers
             };
             db.TicketNotifications.Add(notification);
             db.SaveChanges();
-
+            var userId = notification.UserId;
+            var userEmail = db.Users.Find(userId).Email;
             try
             {
-                var email = new MailMessage(from, notification.User.Email)
+                var email = new MailMessage(from, userEmail)
                 {
                     Subject = "Ticket Assignment",
                     Body = notification.Message,
@@ -62,24 +68,25 @@ namespace KaylaBugTracker.Helpers
                 await Task.FromResult(0);
             }
         }
-        private async Task AddUnassignmentNotification(Ticket newTicket)
+        private async Task AddUnassignmentNotification(Ticket oldTicket)
         {
             var notification = new TicketNotification
             {
-                TicketId = newTicket.Id,
+                TicketId = oldTicket.Id,
                 IsRead = false,
-                UserId = newTicket.DeveloperId,
+                UserId = oldTicket.DeveloperId,
                 Created = DateTime.Now,
-                Message = $"You have been assigned to Ticket Id {newTicket.Id} on Project {newTicket.Project.Name}. <br/>This is a {newTicket.TicketPriority.Name} priority ticket."
+                Message = $"You have been removed from Ticket Id {oldTicket.Id} on Project {oldTicket.Project.Name}."
             };
             db.TicketNotifications.Add(notification);
             db.SaveChanges();
-
+            var userId = notification.UserId;
+            var userEmail = db.Users.Find(userId).Email;
             try
             {
-                var email = new MailMessage(from, notification.User.Email)
+                var email = new MailMessage(from, userEmail)
                 {
-                    Subject = "Ticket Assignment",
+                    Subject = "Ticket Unassignment",
                     Body = notification.Message,
                     IsBodyHtml = true,
                 };
@@ -90,6 +97,18 @@ namespace KaylaBugTracker.Helpers
                 Console.WriteLine(ex.Message);
                 await Task.FromResult(0);
             }
+        }
+
+        public List<TicketNotification> ListUsersNotifications(string userId)
+        {
+            return db.TicketNotifications.Where(n => n.UserId == userId).OrderByDescending(n => n.Created).ToList();
+        }
+
+        public void MarkAsRead(int id)
+        {
+            var notification = db.TicketNotifications.Find(id);
+            notification.IsRead = true;
+            db.SaveChanges();
         }
     }
 }

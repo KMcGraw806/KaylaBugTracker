@@ -11,6 +11,8 @@ namespace KaylaBugTracker.ViewModels
         [Required]
         public string Name { get; set; }
 
+        public string Details { get; set; }
+
         public string ProjectManagerId { get; set; }
 
         public ICollection<string> DeveloperIds { get; set; }

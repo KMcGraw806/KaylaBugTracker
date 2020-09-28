@@ -11,6 +11,17 @@ namespace KaylaBugTracker.Helpers
 {
     public class FileUploadValidator
     {
+        public static string MakeUnique(HttpPostedFileBase file)
+        {
+            var extension = Path.GetExtension(file.FileName);
+
+            var fileName = Path.GetFileNameWithoutExtension(file.FileName);
+            fileName = StringUtilities.URLFriendly(fileName);
+            fileName = $"{fileName}{DateTime.Now.Ticks}{extension}";
+
+            return fileName;
+        }
+
         public static bool IsWebFriendlyImage(HttpPostedFileBase file)
         {
             if (file == null)

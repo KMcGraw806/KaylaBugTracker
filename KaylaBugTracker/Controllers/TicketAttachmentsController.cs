@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
 using Microsoft.AspNet.Identity;
 using KaylaBugTracker.Models;
 using KaylaBugTracker.Helpers;
@@ -41,8 +42,6 @@ namespace KaylaBugTracker.Controllers
         // GET: TicketAttachments/Create
         public ActionResult Create()
         {
-            ViewBag.TicketId = new SelectList(db.Tickets, "id", "SubmitterId");
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
             return View();
         }
 
@@ -51,7 +50,7 @@ namespace KaylaBugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TicketId,FileName")] TicketAttachment ticketAttachment, string attachmentDescription, HttpPostedFileBase file)
+        public ActionResult Create([Bind(Include = "TicketId,FileName, Description")] TicketAttachment ticketAttachment, HttpPostedFileBase file)
         {
             //Check that there is an incoming file
             if(file == null)
@@ -62,28 +61,23 @@ namespace KaylaBugTracker.Controllers
 
             if (ModelState.IsValid)
             {
-                ticketAttachment.Description = attachmentDescription;
+                if (FileUploadValidator.IsWebFriendlyFile(file) || ImageUploadValidator.IsWebFriendlyImage(file))
+                { 
                 ticketAttachment.Created = DateTime.Now;
                 ticketAttachment.UserId = User.Identity.GetUserId();
+                var fileName = FileUploadValidator.MakeUnique(file);
 
-                
-                if(file != null)
-                {
-                    //Step 1: Run the file through a validator; Is it of proper size and extension
-                    
+                    file.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
+                    ticketAttachment.FilePath = "/Uploads/" + fileName;
+                    db.TicketAttachments.Add(ticketAttachment);
+                    db.SaveChanges();
+                    return RedirectToAction("Dashboard", "Tickets", new { id = ticketAttachment.TicketId});
 
-                    //Step 2: Isolate, slug and stamp file name
-
-                    //Step 3: Assign the FilePath property and save the physical file
                 }
-                db.TicketAttachments.Add(ticketAttachment);
-                db.SaveChanges();
-                return RedirectToAction("Index");
             }
 
-            ViewBag.TicketId = new SelectList(db.Tickets, "id", "SubmitterId", ticketAttachment.TicketId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketAttachment.UserId);
-            return View(ticketAttachment);
+            TempData["FileError"] = "The model was invalid!";
+            return View("Dashboard", "Tickets", new { id = ticketAttachment.TicketId });
         }
 
         // GET: TicketAttachments/Edit/5
@@ -98,8 +92,6 @@ namespace KaylaBugTracker.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.TicketId = new SelectList(db.Tickets, "id", "SubmitterId", ticketAttachment.TicketId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketAttachment.UserId);
             return View(ticketAttachment);
         }
 
@@ -116,8 +108,6 @@ namespace KaylaBugTracker.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.TicketId = new SelectList(db.Tickets, "id", "SubmitterId", ticketAttachment.TicketId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketAttachment.UserId);
             return View(ticketAttachment);
         }
 

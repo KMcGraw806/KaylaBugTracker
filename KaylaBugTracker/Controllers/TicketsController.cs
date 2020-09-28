@@ -150,24 +150,37 @@ namespace KaylaBugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,ProjectId,TicketPriorityId,TicketStatusId,TicketTypeId,SubmitterId,DeveloperId,Issue,IssueDescription,Created,Updated,IsResolved,IsArchived")]Ticket ticket)
+        public async Task<ActionResult> Edit(MyTicketVM ticket, int ticketId)
         {
             if (ModelState.IsValid)
             {
                 //Go out and get an unedited copy of the Ticket from the DB
-                var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+                var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticketId);
+                var thisTicket = db.Tickets.Find(ticketId);
 
-                db.Entry(ticket).State = EntityState.Modified;
+                thisTicket.TicketPriorityId = ticket.TicketPriorityId;
+                thisTicket.TicketTypeId = ticket.TicketTypeId;
+                thisTicket.IssueDescription = ticket.IssueDescription;
+                thisTicket.Issue = ticket.Issue;
+
+                if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                {
+                    thisTicket.DeveloperId = ticket.DeveloperId;
+                    thisTicket.IsResolved = ticket.IsResolved;
+                    thisTicket.IsArchived = ticket.IsArchived;
+                    thisTicket.TicketStatusId = ticket.TicketStatusId;
+                }
+
+                thisTicket.Updated = DateTime.Now;
                 db.SaveChanges();
 
                 //Somehow compare my old Ticket with the New Ticket to make any number of decisions that might be required
-                var newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+                var newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticketId);
                 ticketHelper.EditedTicket(oldTicket, newTicket);
                 await notificationHelper.ManageNotifications(oldTicket, newTicket);
                 return RedirectToAction("Index");
             }
-            ViewBag.DeveloperId = new SelectList(roleHelper.ListUsersOnProjectInRole(ticket.ProjectId, "Developer"), "Id", "Email", ticket.DeveloperId);
-            ViewBag.Projectid = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
+            ViewBag.DeveloperId = new SelectList(roleHelper.UsersInRole("Developer"), "Id", "Email");
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
@@ -216,13 +229,26 @@ namespace KaylaBugTracker.Controllers
         {
             var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticketId);
             db.Tickets.Find(ticketId).Issue = ticketTitle;
-            db.Tickets.Find(ticketId).IssueDescription = ticketDescription;
             db.SaveChanges();
             var newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticketId);
             historyHelper.TitleUpdate(oldTicket, newTicket);
 
             return RedirectToAction("Dashboard", "Tickets", new { Id = ticketId });
             
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Developer, Submitter")]
+        public ActionResult UpdateTicketDescription(string ticketDescription, int ticketId)
+        {
+            var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticketId);
+            db.Tickets.Find(ticketId).IssueDescription = ticketDescription;
+            db.SaveChanges();
+            var newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticketId);
+            historyHelper.DescriptionUpdate(oldTicket, newTicket);
+
+            return RedirectToAction("Dashboard", "Tickets", new { Id = ticketId });
         }
 
         [HttpPost]
