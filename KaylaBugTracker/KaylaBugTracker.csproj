@@ -260,6 +260,7 @@
     <Content Include="Images\gif.png" />
     <Content Include="Images\jpeg.png" />
     <Content Include="Images\jpg.png" />
+    <Content Include="Avatars\kayla.jpg" />
     <Content Include="Images\logo-small.png" />
     <Content Include="Images\Logo.png" />
     <Content Include="Images\pdf.png" />
