@@ -176,8 +176,8 @@ namespace KaylaBugTracker.Controllers
 
                 //Somehow compare my old Ticket with the New Ticket to make any number of decisions that might be required
                 var newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticketId);
-                ticketHelper.EditedTicket(oldTicket, newTicket);
-                await notificationHelper.ManageNotifications(oldTicket, newTicket);
+                ticketManager.ManageTicketNotifications(oldTicket, newTicket);
+                //await notificationHelper.ManageNotifications(oldTicket, newTicket);
                 return RedirectToAction("Index");
             }
             ViewBag.DeveloperId = new SelectList(roleHelper.UsersInRole("Developer"), "Id", "Email");
