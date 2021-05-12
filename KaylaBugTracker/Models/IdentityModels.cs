@@ -85,3 +85,4 @@ namespace KaylaBugTracker.Models
         public IEnumerable Developers { get; internal set; }
     }
 }
+

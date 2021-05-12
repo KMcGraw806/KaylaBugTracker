@@ -60,3 +60,4 @@ namespace KaylaBugTracker.Models
         #endregion
     }
 }
+

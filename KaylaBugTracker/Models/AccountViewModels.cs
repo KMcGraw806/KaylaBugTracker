@@ -132,3 +132,5 @@ namespace KaylaBugTracker.Models
         public string Email { get; set; }
     }
 }
+
+
