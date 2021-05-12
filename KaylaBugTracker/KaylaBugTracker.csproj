@@ -226,7 +226,7 @@
     <Content Include="Avatars\Britta.png" />
     <Content Include="Avatars\Chang.png" />
     <Content Include="Avatars\Dean.png" />
-    <Content Include="Avatars\default-avatar.png" />
+    <Content Include="Avatars\default_avatar.png" />
     <Content Include="Avatars\Jeff.png" />
     <Content Include="Avatars\Pierce.png" />
     <Content Include="Avatars\Shirley.png" />
