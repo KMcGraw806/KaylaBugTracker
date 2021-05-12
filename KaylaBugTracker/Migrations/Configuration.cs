@@ -21,6 +21,8 @@ namespace KaylaBugTracker.Migrations
             AutomaticMigrationsEnabled = true;
         }
 
+
+
         protected override void Seed(KaylaBugTracker.Models.ApplicationDbContext context)
         {
             #region Role Creation
@@ -75,7 +77,7 @@ namespace KaylaBugTracker.Migrations
                     Email = "kayla_mcgraw@hotmail.com",
                     FirstName = "Kayla",
                     LastName = "McGraw",
-                }, "Simone2410");
+                }, "$Imone2410");
             }
 
             if (!context.Users.Any(u => u.Email == adminEmail))
