@@ -226,7 +226,7 @@
     <Content Include="Avatars\Britta.png" />
     <Content Include="Avatars\Chang.png" />
     <Content Include="Avatars\Dean.png" />
-    <Content Include="Avatars\default_avatar.png" />
+    <Content Include="Avatars\default-avatar.png" />
     <Content Include="Avatars\Jeff.png" />
     <Content Include="Avatars\Pierce.png" />
     <Content Include="Avatars\Shirley.png" />
@@ -260,7 +260,6 @@
     <Content Include="Images\gif.png" />
     <Content Include="Images\jpeg.png" />
     <Content Include="Images\jpg.png" />
-    <Content Include="Avatars\kayla.jpg" />
     <Content Include="Images\logo-small.png" />
     <Content Include="Images\Logo.png" />
     <Content Include="Images\pdf.png" />
