@@ -55,7 +55,7 @@ namespace KaylaBugTracker.Controllers
                 ticketList = db.Tickets.Where(t => t.DeveloperId == userId).ToList();
                 return View("Index", ticketList);
             }
-            if(User.IsInRole("Submitter"))
+            if (User.IsInRole("Submitter"))
             {
                 ticketList = db.Tickets.Where(t => t.SubmitterId == userId).ToList();
                 return View("Index", ticketList);
@@ -86,7 +86,7 @@ namespace KaylaBugTracker.Controllers
         public ActionResult Create()
         {
             var userId = User.Identity.GetUserId();
-            if(userId == null)
+            if (userId == null)
             {
                 return RedirectToAction("Index");
             }
@@ -112,7 +112,7 @@ namespace KaylaBugTracker.Controllers
                 //Set: DeveloperId to null, IsArchived and IsResolved will be false
                 ticket.TicketStatusId = db.TicketStatuses.Where(ts => ts.Name == "Open").FirstOrDefault().Id;
                 ticket.Created = DateTime.Now;
-                ticket.SubmitterId = userId; 
+                ticket.SubmitterId = userId;
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
                 return RedirectToAction("Details", "Projects", new { id = ticket.ProjectId });
@@ -176,8 +176,8 @@ namespace KaylaBugTracker.Controllers
 
                 //Somehow compare my old Ticket with the New Ticket to make any number of decisions that might be required
                 var newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticketId);
-                ticketManager.ManageTicketNotifications(oldTicket, newTicket);
-                //await notificationHelper.ManageNotifications(oldTicket, newTicket);
+                ticketHelper.EditedTicket(oldTicket, newTicket);
+                await notificationHelper.ManageNotifications(oldTicket, newTicket);
                 return RedirectToAction("Index");
             }
             ViewBag.DeveloperId = new SelectList(roleHelper.UsersInRole("Developer"), "Id", "Email");
@@ -234,7 +234,7 @@ namespace KaylaBugTracker.Controllers
             historyHelper.TitleUpdate(oldTicket, newTicket);
 
             return RedirectToAction("Dashboard", "Tickets", new { Id = ticketId });
-            
+
         }
 
         [HttpPost]

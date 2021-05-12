@@ -24,7 +24,7 @@ namespace KaylaBugTracker.Helpers
 
         public void DeveloperUpdate(Ticket oldTicket, Ticket newTicket)
         {
-            if(oldTicket.DeveloperId != newTicket.DeveloperId)
+            if (oldTicket.DeveloperId != newTicket.DeveloperId)
             {
                 var history = new TicketHistory()
                 {

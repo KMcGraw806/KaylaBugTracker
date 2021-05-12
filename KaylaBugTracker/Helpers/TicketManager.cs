@@ -44,7 +44,7 @@ namespace KaylaBugTracker.Helpers
         public void ManageTicketNotifications(Ticket oldTicket, Ticket newTicket)
         {
             //Scenario 1: A new assignment - oldTicket.DeveloperId = null newTicket.DeveloperId is not
-            if(oldTicket.DeveloperId != newTicket.DeveloperId && newTicket.DeveloperId != null)
+            if (oldTicket.DeveloperId != newTicket.DeveloperId && newTicket.DeveloperId != null)
             {
                 var newNotification = new TicketNotification()
                 {
@@ -57,11 +57,11 @@ namespace KaylaBugTracker.Helpers
 
                 db.TicketNotifications.Add(newNotification);
                 db.SaveChanges();
-                
+
             }
 
             //Scenario 2: An unassignment
-            if(oldTicket.DeveloperId != newTicket.DeveloperId && newTicket.DeveloperId == null)
+            if (oldTicket.DeveloperId != newTicket.DeveloperId && newTicket.DeveloperId == null)
             {
                 var newNotification = new TicketNotification()
                 {
