@@ -27,7 +27,8 @@
         "2021",
         "2022",
         "2023",
-      ],
+        ], 
+
       datasets: [
         {
           label: "# of Votes",
@@ -56,7 +57,7 @@
             10,
             10,
           ],
-          borderColor: "#ddd",
+          borderColor: "#dddddd",
 
           borderWidth: 2,
           fill: false,

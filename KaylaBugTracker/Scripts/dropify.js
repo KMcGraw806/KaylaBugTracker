@@ -3,6 +3,7 @@
   $('.dropify').dropify();
 })(jQuery);
 
+
 /*!
  * =============================================================
  * dropify v0.2.2 - Override your input files with style.
