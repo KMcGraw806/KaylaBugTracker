@@ -11,7 +11,7 @@ namespace KaylaBugTracker.Models
 
         #region Parents/Children
         public int TicketId { get; set; }
-        public virtual Ticket Ticket { get; set; }
+        public virtual Tickets Tickets { get; set; }
 
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
