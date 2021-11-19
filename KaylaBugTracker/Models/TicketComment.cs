@@ -18,7 +18,7 @@ namespace KaylaBugTracker.Models
         #endregion
 
         #region Actual Properties
-        public string Comment { get; set; }
+        public string Notes { get; set; }
 
         public DateTime Created { get; set; }
     #endregion
